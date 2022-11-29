@@ -5,15 +5,15 @@ import "./style.scss";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
-// import { onMessageListener } from './firebase';
+import { onMessageListener } from './firebase';
 
 function App() {
 
   const { currentUser } = useContext(AuthContext);
 
-  // onMessageListener().then(payload => {
-  //   console.log(payload);
-  // }).catch(err => console.log('failed: ', err));
+  onMessageListener().then(payload => {
+    console.log(payload);
+  }).catch(err => console.log('failed: ', err));
 
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
