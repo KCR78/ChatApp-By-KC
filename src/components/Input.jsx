@@ -28,9 +28,6 @@ const Input = () => {
 
   const handleSend = async () => {
 
-    console.log(currentUser);
-    console.log(data);
-
     if (img) {
       const storageRef = ref(storage, uuid());
 
@@ -85,7 +82,6 @@ const Input = () => {
     });
 
     const result = await getDoc(doc(db, "fcmTokens", data.user.uid));
-    console.log(result.data().token_id);
 
     // This registration token comes from the client FCM SDKs.
     const regdToken = result.data().token_id;

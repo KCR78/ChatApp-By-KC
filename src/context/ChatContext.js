@@ -21,7 +21,7 @@ export const ChatContextProvider = ({ children }) => {
   };
 
   const chatReducer = (state, action) => {
-    // console.log(state, action);
+
     switch (action.type) {
       case "CHANGE_USER":
         return {
@@ -44,7 +44,6 @@ export const ChatContextProvider = ({ children }) => {
   };
 
   const getAllUsers = async () => {
-    console.log('here');
     setnewChats([]);
     const q = query(collection(db, "users"));
 
@@ -52,7 +51,6 @@ export const ChatContextProvider = ({ children }) => {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         newChats.push(doc.data());
-        console.log(doc.data());
         setnewChats(v => v);
       });
     } catch (err) {

@@ -33,8 +33,6 @@ const Search = () => {
 
   const handleSelect = async (data) => {
 
-    console.log('here');
-    console.log(data);
     //check whether the group(chats in firestore) exists, if not create
     const combinedId =
       currentUser.uid > data.uid

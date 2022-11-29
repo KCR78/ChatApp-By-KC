@@ -12,15 +12,12 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
-      console.log(user);
 
       if (user) {
         getToken(messaging, { vapidKey: 'BG9avsAhLPsY9k2b0FZpTCwcsWEkT3lqSkAyL2k6Duo94BnxEXMkoD0kzrLsZwz7dKSP6jq0MBsppDmnukwO9RY' }).then((currentToken) => {
           if (currentToken) {
-            console.log('Token : ', currentToken);
             user['token_id'] = currentToken;
             setCurrentUser(user);
-            console.log(user);
 
             setDoc(doc(db, "fcmTokens", user.uid), {
               token_id: currentToken
