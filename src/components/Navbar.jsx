@@ -9,13 +9,15 @@ const Navbar = () => {
 
   return (
     <div className='navbar'>
-      <span className="logo">ChatApp</span>
-      <div className="user">
-        <img src={currentUser.photoURL} alt="" />
-        <span>{currentUser.displayName}</span>
+      <div className='brand'>
+        <span className="logo">ChatApp</span>
         <button onClick={() => signOut(auth)}>Logout</button>
       </div>
-    </div>
+      <div className="user">
+        <img src={currentUser.photoURL} alt="" />
+        <span title={`${currentUser.displayName}`}>{currentUser.displayName}</span>
+      </div>
+    </div >
   )
 };
 

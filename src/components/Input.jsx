@@ -93,7 +93,7 @@ const Input = () => {
     let body = {
       to: regdToken,
       notification: {
-        title: `Message from ${data.user.displayName}`,
+        title: `Message from ${currentUser.displayName}`,
         body: text.substring(0, 30),
         click_action: 'https://fcm.googleapis.com/fcm/send'
       }

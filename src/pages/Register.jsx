@@ -32,7 +32,10 @@ const Register = () => {
       !isImg
     ) {
       setErr('Please add all value.');
-    } else {
+    } else if (dispNamRef.current.value.trim().length > 20) {
+      setErr(`Name can't be exceed more that 20 characters`);
+    }
+    else {
       if (!regx.test(emailRef.current.value.trim())) setErr('Please enter valid email.');
       else {
         setErr(false);

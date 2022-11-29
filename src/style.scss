@@ -156,31 +156,27 @@
 
       .navbar {
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        // align-items: center;
+        // justify-content: space-around;
         background-color: #2f2d52;
-        height: 50px;
+        height: 65px;
         padding: 10px;
         justify-content: space-between;
         color: #ddddf7;
 
-        .logo {
-          font-weight: bold;
-
-          @include tablet {
-            display: none;
-          }
-        }
-
-        .user {
+        .brand {
+          font-size: 24px;
           display: flex;
-          gap: 10px;
+          justify-content: space-between;
+          margin-bottom: 5px;
 
-          img {
-            background-color: #ddddf7;
-            height: 24px;
-            width: 24px;
-            border-radius: 50%;
-            object-fit: cover;
+          .logo {
+            font-weight: bold;
+
+            @include tablet {
+              display: none;
+            }
           }
 
           button {
@@ -196,6 +192,20 @@
               padding: 5px;
             }
           }
+        }
+
+        .user {
+          display: flex;
+          gap: 10px;
+
+          img {
+            background-color: #ddddf7;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+
         }
       }
 
@@ -227,7 +237,7 @@
 
       .allChats {
         position: absolute;
-        top: 114px;
+        top: 130px;
         bottom: 0px;
         left: 0px;
         right: 0px;
