@@ -26,7 +26,54 @@ const Input = () => {
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 
+
+  const pushNotification = (token, textContent) => {
+
+    let body = {
+      to: token,
+      notification: {
+        title: `Message from ${currentUser.displayName}`,
+        body: textContent,
+        click_action: 'https://fcm.googleapis.com/fcm/send'
+      }
+    };
+
+    let options = {
+      method: 'POST',
+      headers: new Headers({
+        Authorization: 'key=AAAARNFqDq0:APA91bGELvxn2jUWXM6-S73Qss519Hx_OYKJ_GriuPUWyLQS1IfWR1eErkVmt9p5LN1dK_BPsMvS1551qaEajSgQGjzjSDd8CS5sgtk-CY25-hvAjVbcIF_POLsyd0GQSlXq-WYUn-fc',
+        'Content-Type': 'application/json',
+      }),
+      body: JSON.stringify(body)
+    }
+
+    fetch('https://fcm.googleapis.com/fcm/send', options).then(res => {
+      console.log(res);
+    }).catch(e => console.log(e));
+  };
+
+  const updtDocs = async (textContent) => {
+    await updateDoc(doc(db, "userChats", currentUser.uid), {
+      [data.chatId + ".lastMessage"]: {
+        text: textContent,
+      },
+      [data.chatId + ".date"]: serverTimestamp(),
+    });
+
+    await updateDoc(doc(db, "userChats", data.user.uid), {
+      [data.chatId + ".lastMessage"]: {
+        text: textContent,
+      },
+      [data.chatId + ".date"]: serverTimestamp(),
+    });
+  };
+
   const handleSend = async () => {
+
+    const result = await getDoc(doc(db, "fcmTokens", data.user.uid));
+    // This registration token comes from the client FCM SDKs.
+    const regdToken = result.data().token_id;
+
 
     if (img) {
       const storageRef = ref(storage, uuid());
@@ -50,6 +97,9 @@ const Input = () => {
                 img: downloadURL,
               }),
             });
+
+            pushNotification(regdToken, text === '' ? 'Image' : text.substring(0, 30));
+            updtDocs(text !== '' ? text.substring(0, 20) : 'Image');
           });
         }
       );
@@ -64,49 +114,12 @@ const Input = () => {
             date: Timestamp.now(),
           }),
         });
+
+        pushNotification(regdToken, text.substring(0, 30));
+        updtDocs(text !== '' ? text.substring(0, 20) : 'Image');
+
       }
     };
-
-    await updateDoc(doc(db, "userChats", currentUser.uid), {
-      [data.chatId + ".lastMessage"]: {
-        text: text !== '' ? text : 'Image',
-      },
-      [data.chatId + ".date"]: serverTimestamp(),
-    });
-
-    await updateDoc(doc(db, "userChats", data.user.uid), {
-      [data.chatId + ".lastMessage"]: {
-        text: text !== '' ? text : 'Image',
-      },
-      [data.chatId + ".date"]: serverTimestamp(),
-    });
-
-    const result = await getDoc(doc(db, "fcmTokens", data.user.uid));
-
-    // This registration token comes from the client FCM SDKs.
-    const regdToken = result.data().token_id;
-
-    let body = {
-      to: regdToken,
-      notification: {
-        title: `Message from ${currentUser.displayName}`,
-        body: text.substring(0, 30),
-        click_action: 'https://fcm.googleapis.com/fcm/send'
-      }
-    };
-
-    let options = {
-      method: 'POST',
-      headers: new Headers({
-        Authorization: 'key=AAAARNFqDq0:APA91bGELvxn2jUWXM6-S73Qss519Hx_OYKJ_GriuPUWyLQS1IfWR1eErkVmt9p5LN1dK_BPsMvS1551qaEajSgQGjzjSDd8CS5sgtk-CY25-hvAjVbcIF_POLsyd0GQSlXq-WYUn-fc',
-        'Content-Type': 'application/json',
-      }),
-      body: JSON.stringify(body)
-    }
-
-    fetch('https://fcm.googleapis.com/fcm/send', options).then(res => {
-      console.log(res);
-    }).catch(e => console.log(e))
 
     setText("");
     setImg(null);
