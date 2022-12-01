@@ -5,6 +5,7 @@ import { ChatContext } from "../context/ChatContext";
 import { db } from "../firebase";
 import add from "../img/add.png";
 import cancel from "../img/cancel.png";
+import { dataDecrypt } from "./dataEncryptDcrypt";
 
 const Chats = () => {
 
@@ -101,7 +102,7 @@ const Chats = () => {
     <div className="chats">
 
       <div className="allChats">
-        {Object.entries(chats)?.sort((a, b) => b[1].date - a[1].date).map((chat) =>
+        {typeof chats === 'object' && Object.entries(chats)?.sort((a, b) => b[1].date - a[1].date).map((chat) =>
           <div
             className={`userChat ${chat[0] === data.chatId && 'activeChat'}`}
             key={chat[0]}
@@ -110,7 +111,7 @@ const Chats = () => {
             <img src={chat[1].userInfo.photoURL} alt="" />
             <div className="userChatInfo">
               <span>{chat[1].userInfo.displayName}</span>
-              <p>{chat[1].lastMessage?.text}</p>
+              <p>{chat[1].lastMessage && dataDecrypt(chat[1].lastMessage.text, chat[0])}</p>
             </div>
           </div>
         )}

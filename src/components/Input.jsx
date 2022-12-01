@@ -15,6 +15,7 @@ import {
 import { db, storage } from "../firebase";
 import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { dataEncrypt } from "./dataEncryptDcrypt";
 
 
 const Input = () => {
@@ -47,22 +48,20 @@ const Input = () => {
       body: JSON.stringify(body)
     }
 
-    fetch('https://fcm.googleapis.com/fcm/send', options).then(res => {
-      console.log(res);
-    }).catch(e => console.log(e));
+    fetch('https://fcm.googleapis.com/fcm/send', options).then().catch(e => console.log(e));
   };
 
   const updtDocs = async (textContent) => {
     await updateDoc(doc(db, "userChats", currentUser.uid), {
       [data.chatId + ".lastMessage"]: {
-        text: textContent,
+        text: dataEncrypt(textContent, data.chatId),
       },
       [data.chatId + ".date"]: serverTimestamp(),
     });
 
     await updateDoc(doc(db, "userChats", data.user.uid), {
       [data.chatId + ".lastMessage"]: {
-        text: textContent,
+        text: dataEncrypt(textContent, data.chatId),
       },
       [data.chatId + ".date"]: serverTimestamp(),
     });
@@ -91,10 +90,10 @@ const Input = () => {
             await updateDoc(doc(db, "chats", data.chatId), {
               messages: arrayUnion({
                 id: uuid(),
-                text,
+                text: dataEncrypt(text, data.chatId),
                 senderId: currentUser.uid,
                 date: Timestamp.now(),
-                img: downloadURL,
+                img: dataEncrypt(downloadURL, data.chatId),
               }),
             });
 
@@ -109,7 +108,7 @@ const Input = () => {
         await updateDoc(doc(db, "chats", data.chatId), {
           messages: arrayUnion({
             id: uuid(),
-            text,
+            text: dataEncrypt(text, data.chatId),
             senderId: currentUser.uid,
             date: Timestamp.now(),
           }),
@@ -131,6 +130,7 @@ const Input = () => {
       <input
         type="text"
         placeholder="Type something..."
+        onKeyPress={(e) => e.key === "Enter" && handleSend()}
         onChange={(e) => setText(e.target.value)}
         value={text}
       />

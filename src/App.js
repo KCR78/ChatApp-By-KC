@@ -11,14 +11,10 @@ function App() {
 
   const { currentUser } = useContext(AuthContext);
 
-  onMessageListener().then(payload => {
-    console.log(payload);
-  }).catch(err => console.log('failed: ', err));
+  onMessageListener().then().catch(err => console.log('failed: ', err));
 
   const ProtectedRoute = ({ children }) => {
-    if (!currentUser) {
-      return <Navigate to="/login" />;
-    }
+    if (!currentUser) return <Navigate to="/login" />;
 
     return children
   };
@@ -41,6 +37,6 @@ function App() {
       </Routes>
     </BrowserRouter>
   );
-}
+};
 
 export default App;
