@@ -32,7 +32,7 @@ const Message = ({ message, chatId }) => {
       </div>
       <div className="messageContent">
         {dataDecrypt(message.text, chatId) !== '' && <p>{dataDecrypt(message.text, chatId)}</p>}
-        {message.img && <img src={dataDecrypt(message.img, chatId)} alt="" />}
+        {message.img && <img src={message.img} alt="" />}
       </div>
     </div>
   );

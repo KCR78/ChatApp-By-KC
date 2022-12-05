@@ -12,7 +12,7 @@ export const ChatContext = createContext();
 
 export const ChatContextProvider = ({ children }) => {
 
-  const [newChats, setnewChats] = useState([]);
+  const [newChats, setNewChats] = useState([]);
 
   const { currentUser } = useContext(AuthContext);
   const INITIAL_STATE = {
@@ -44,14 +44,14 @@ export const ChatContextProvider = ({ children }) => {
   };
 
   const getAllUsers = async () => {
-    setnewChats([]);
+    setNewChats([]);
     const q = query(collection(db, "users"));
 
     try {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         newChats.push(doc.data());
-        setnewChats(v => v);
+        setNewChats(v => v);
       });
     } catch (err) {
       console.log(err);
@@ -62,7 +62,7 @@ export const ChatContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(chatReducer, INITIAL_STATE);
 
   return (
-    <ChatContext.Provider value={{ data: state, dispatch, newChats, setnewChats, getAllUsers }}>
+    <ChatContext.Provider value={{ data: state, dispatch, newChats, setNewChats, getAllUsers }}>
       {children}
     </ChatContext.Provider>
   );

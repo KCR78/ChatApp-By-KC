@@ -93,7 +93,7 @@ const Input = () => {
                 text: dataEncrypt(text, data.chatId),
                 senderId: currentUser.uid,
                 date: Timestamp.now(),
-                img: dataEncrypt(downloadURL, data.chatId),
+                img: downloadURL,
               }),
             });
 
