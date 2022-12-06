@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { signOut } from "firebase/auth"
 import { auth } from '../firebase'
 import { AuthContext } from '../context/AuthContext'
+import usr from '../img/user.png'
 
 const Navbar = () => {
 
@@ -14,8 +15,10 @@ const Navbar = () => {
         <button onClick={() => signOut(auth)}>Logout</button>
       </div>
       <div className="user">
-        <img src={currentUser.photoURL} alt="" />
-        <span title={`${currentUser.displayName}`}>{currentUser.displayName}</span>
+        <img src={currentUser.photoURL ? currentUser.photoURL : usr} alt="" />
+        <span title={`${currentUser.displayName ? currentUser.displayName : currentUser.email}`}>
+          {currentUser.displayName ? currentUser.displayName : currentUser.email}
+        </span>
       </div>
     </div >
   )

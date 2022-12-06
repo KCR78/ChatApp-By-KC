@@ -1,12 +1,7 @@
 import React, { useContext, useState } from "react";
-// import Add from "../img/addAvatar.png";
 import AddUser from "../img/add.png";
 import cancel from "../img/cancel.png";
-// import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-// import { auth, db, storage } from "../firebase";
 import { db, } from "../firebase";
-// import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-// import { useNavigate, Link } from "react-router-dom";
 import { useRef } from "react";
 import { ChatContext } from "../context/ChatContext";
 import { useEffect } from "react";
@@ -17,18 +12,12 @@ const Visitors = () => {
 
     const [err, setErr] = useState(false);
     const [loading, setLoading] = useState(false);
-    // const [isImg, setIsImg] = useState(false);
-    // const [image, setImage] = useState();
     const [allUsersList, setAllUsersList] = useState([]);
     const [showAddUser, setShowAddUser] = useState(false);
 
     const { setIsRegisterUserOpen } = useContext(ChatContext);
 
-    // const dispNamRef = useRef();
     const emailRef = useRef();
-    // const passRef = useRef();
-
-    // const navigate = useNavigate();
 
     console.log(allUsersList);
 
@@ -61,22 +50,11 @@ const Visitors = () => {
         }
     };
 
-    const handleSubmit = async (e, item) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const regx = /^(([^<>()[\]\\.,;:\s@\\"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(\\".+\\"))@(([^<>()[\]\\.,;:\s@\\"]+\.)+[^<>()[\]\\.,;:\s@\\"]{2,})$/i
 
-        if (
-            // dispNamRef.current.value.trim() === '' ||
-            // emailRef.current.value.trim() === '' ||
-            // passRef.current.value.trim() === '' ||
-            // !isImg
-            emailRef.current.value.trim() === ''
-        ) {
-            setErr('Please add all value.');
-        }
-        // else if (dispNamRef.current.value.trim().length > 20) {
-        //   setErr(`Name can't be exceed more that 20 characters`);
-        // }
+        if (emailRef.current.value.trim() === '') setErr('Please add all value.');
         else {
             if (!regx.test(emailRef.current.value.trim())) setErr('Please enter valid email.');
             else {
@@ -108,61 +86,6 @@ const Visitors = () => {
                     setErr("Visitor already exists.");
                     setLoading(false);
                 }
-
-
-
-
-
-                // setErr(false);
-                // setLoading(true);
-                // const displayName = dispNamRef.current.value;
-                // const password = passRef.current.value;
-                // const file = image;
-
-                //   try {
-                //     //Create user
-                //     const res = await createUserWithEmailAndPassword(auth, email, password);
-
-                //     //Create a unique image name
-                //     const date = new Date().getTime();
-                //     const storageRef = ref(storage, `${displayName + date}`);
-
-                //     await uploadBytesResumable(storageRef, file).then(() => {
-                //       getDownloadURL(storageRef).then(async (downloadURL) => {
-                //         try {
-                //           //Update profile
-                //           await updateProfile(res.user, {
-                //             displayName,
-                //             photoURL: downloadURL,
-                //             isAdmin: true
-                //           });
-
-                //           //create user on firestore
-                //           await setDoc(doc(db, "users", res.user.uid), {
-                //             uid: res.user.uid,
-                //             displayName,
-                //             email,
-                //             photoURL: downloadURL,
-                //             isAdmin: true
-                //           });
-
-                //           //create empty user chats on firestore
-                //           await setDoc(doc(db, "userChats", res.user.uid), {});
-                //           // navigate("/");
-                //           setLoading(false);
-
-                //           console.log('finish');
-                //         } catch (err) {
-                //           console.log(err);
-                //           setErr(true);
-                //           setLoading(false);
-                //         }
-                //       });
-                //     });
-                //   } catch (err) {
-                //     setErr(true);
-                //     setLoading(false);
-                //   }
             }
         }
     };

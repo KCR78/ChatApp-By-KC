@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import Cancel from "../img/cancel.png";
+import usr from "../img/user.png";
 // import Cam from "../img/cam.png";
 // import Add from "../img/add.png";
 // import More from "../img/more.png";
@@ -15,6 +16,8 @@ const Chat = () => {
     dispatch({ type: "REMOVE_USER", payload: u });
   };
 
+  console.log(data);
+
   return (
     <div className="chat">
 
@@ -27,8 +30,8 @@ const Chat = () => {
         <>
           <div className="chatInfo">
             <span>
-              <img src={data.user?.photoURL} alt="" className="userImage" />
-              {data.user?.displayName}
+              <img src={data.user.photoURL ? data.user.photoURL : usr} alt="" className="userImage" />
+              {data.user.displayName ? data.user.displayName : data.user.email}
             </span>
             <div className="chatIcons">
               {/* <img src={Cam} alt="" /> */}

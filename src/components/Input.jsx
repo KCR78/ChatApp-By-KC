@@ -33,7 +33,7 @@ const Input = () => {
     let body = {
       to: token,
       notification: {
-        title: `Message from ${currentUser.displayName}`,
+        title: `Message from ${currentUser.displayName ? currentUser.displayName : currentUser.email}`,
         body: textContent,
         click_action: 'https://fcm.googleapis.com/fcm/send'
       }

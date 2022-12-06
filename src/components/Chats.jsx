@@ -4,6 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
 import { db } from "../firebase";
 import add from "../img/add.png";
+import usr from "../img/user.png";
 import addChats from "../img/add-chats.png";
 import cancel from "../img/cancel.png";
 import { dataDecrypt } from "./dataEncryptDcrypt";
@@ -75,6 +76,7 @@ const Chats = () => {
         await updateDoc(doc(db, "userChats", currentUser.uid), {
           [combinedId + ".userInfo"]: {
             uid: data.uid,
+            email: data.email,
             displayName: data.displayName,
             photoURL: data.photoURL,
           },
@@ -84,6 +86,7 @@ const Chats = () => {
         await updateDoc(doc(db, "userChats", data.uid), {
           [combinedId + ".userInfo"]: {
             uid: currentUser.uid,
+            email: currentUser.email,
             displayName: currentUser.displayName,
             photoURL: currentUser.photoURL,
           },
@@ -109,9 +112,9 @@ const Chats = () => {
             key={chat[0]}
             onClick={() => handleSelect(chat[1].userInfo)}
           >
-            <img src={chat[1].userInfo.photoURL} alt="" />
+            <img src={chat[1].userInfo.photoURL ? chat[1].userInfo.photoURL : usr} alt="" />
             <div className="userChatInfo">
-              <span>{chat[1].userInfo.displayName}</span>
+              <span>{chat[1].userInfo.displayName ? chat[1].userInfo.displayName : chat[1].userInfo.email}</span>
               {/* <p>{chat[1].lastMessage && dataDecrypt(chat[1].lastMessage.text, chat[0])}</p> */}
               <p>{chat[1].lastMessage && chat[1].lastMessage.text}</p>
             </div>
@@ -134,8 +137,8 @@ const Chats = () => {
               {newChats.map(item =>
                 item.uid !== currentUser.uid &&
                 <div className="user" onClick={() => selectNewChat(item)} key={item.uid}>
-                  <img src={item.photoURL} alt="" />
-                  <p key={item.uid}>{item.displayName}</p>
+                  <img src={item.photoURL ? item.photoURL : usr} alt="" />
+                  <p key={item.uid}>{item.displayName ? item.displayName : item.email}</p>
                 </div>
               )}
             </div>

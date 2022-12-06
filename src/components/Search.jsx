@@ -3,6 +3,7 @@ import { collection, query, where, getDocs, setDoc, doc, updateDoc, serverTimest
 import { db } from "../firebase";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
+import usr from '../img/user.png'
 
 const Search = () => {
 
@@ -85,9 +86,9 @@ const Search = () => {
       {err && <span>User not found!</span>}
       {user && (
         <div className="userChat search_result" onClick={() => handleSelect(user)}>
-          <img src={user.photoURL} alt="" />
+          <img src={user.photoURL ? user.photoURL : usr} alt="" />
           <div className="userChatInfo">
-            <span>{user.displayName}</span>
+            <span>{user.displayName ? user.displayName : user.email}</span>
           </div>
         </div>
       )}
