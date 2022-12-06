@@ -54,14 +54,16 @@ const Input = () => {
   const updtDocs = async (textContent) => {
     await updateDoc(doc(db, "userChats", currentUser.uid), {
       [data.chatId + ".lastMessage"]: {
-        text: dataEncrypt(textContent, data.chatId),
+        // text: dataEncrypt(textContent, data.chatId),
+        text
       },
       [data.chatId + ".date"]: serverTimestamp(),
     });
 
     await updateDoc(doc(db, "userChats", data.user.uid), {
       [data.chatId + ".lastMessage"]: {
-        text: dataEncrypt(textContent, data.chatId),
+        // text: dataEncrypt(textContent, data.chatId),
+        text
       },
       [data.chatId + ".date"]: serverTimestamp(),
     });
@@ -90,7 +92,8 @@ const Input = () => {
             await updateDoc(doc(db, "chats", data.chatId), {
               messages: arrayUnion({
                 id: uuid(),
-                text: dataEncrypt(text, data.chatId),
+                // text: dataEncrypt(text, data.chatId),
+                text,
                 senderId: currentUser.uid,
                 date: Timestamp.now(),
                 img: downloadURL,
@@ -108,7 +111,8 @@ const Input = () => {
         await updateDoc(doc(db, "chats", data.chatId), {
           messages: arrayUnion({
             id: uuid(),
-            text: dataEncrypt(text, data.chatId),
+            // text: dataEncrypt(text, data.chatId),
+            text,
             senderId: currentUser.uid,
             date: Timestamp.now(),
           }),

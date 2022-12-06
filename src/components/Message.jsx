@@ -31,7 +31,8 @@ const Message = ({ message, chatId }) => {
         {/* <span>just now</span> */}
       </div>
       <div className="messageContent">
-        {dataDecrypt(message.text, chatId) !== '' && <p>{dataDecrypt(message.text, chatId)}</p>}
+        {/* {dataDecrypt(message.text, chatId) !== '' && <p>{dataDecrypt(message.text, chatId)}</p>} */}
+        {message.text !== '' && <p>{message.text}</p>}
         {message.img && <img src={message.img} alt="" />}
       </div>
     </div>
