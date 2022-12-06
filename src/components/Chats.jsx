@@ -4,6 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
 import { db } from "../firebase";
 import add from "../img/add.png";
+import addChats from "../img/add-chats.png";
 import cancel from "../img/cancel.png";
 import { dataDecrypt } from "./dataEncryptDcrypt";
 
@@ -14,7 +15,7 @@ const Chats = () => {
   const [newChatToggle, setNewChatToggle] = useState(false);
 
   const { currentUser } = useContext(AuthContext);
-  const { data, dispatch } = useContext(ChatContext);
+  const { data, dispatch, setIsRegisterUserOpen } = useContext(ChatContext);
 
   useEffect(() => {
     const getChats = () => {
@@ -111,13 +112,16 @@ const Chats = () => {
             <img src={chat[1].userInfo.photoURL} alt="" />
             <div className="userChatInfo">
               <span>{chat[1].userInfo.displayName}</span>
-              <p>{chat[1].lastMessage && dataDecrypt(chat[1].lastMessage.text, chat[0])}</p>
+              {/* <p>{chat[1].lastMessage && dataDecrypt(chat[1].lastMessage.text, chat[0])}</p> */}
             </div>
           </div>
         )}
       </div>
       <div className="newChats">
-        <img src={add} onClick={() => setNewChatToggle(true)} className='add' alt="" />
+
+        <img src={addChats} onClick={() => setNewChatToggle(true)} className='add-chats' alt="" title="Add New Charts" />
+        <img src={add} onClick={() => setIsRegisterUserOpen(true)} className='add-users' alt="" title="Register New User" />
+
         {newChatToggle && <div className="users">
           <div className="heading">
             <p>All Users</p>

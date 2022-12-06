@@ -16,6 +16,10 @@
   }
 }
 
+input:focus-visible {
+  outline: 0 !important;
+}
+
 ::-webkit-scrollbar {
   width: 5px;
 }
@@ -36,7 +40,292 @@
   color: red;
 }
 
-.formContainer {
+.user-lists {
+  flex: 2;
+  // padding: 20px;
+  position: relative;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  // justify-content: center;
+  // overflow: auto;
+  // align-items: center;
+
+  .close-regd {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 8px;
+    width: 25px;
+  }
+
+  .add-btn {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    left: 20px;
+    background-color: #4F4D7F;
+    border: 1px solid #DADAF5;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #4F4D7F;
+    }
+  }
+
+  .head {
+    padding: 10px;
+    border-bottom: 1px solid #4F4D7F;
+    margin-bottom: 10px;
+    color: #5d5b8d;
+    font-weight: bold;
+    font-size: 24px;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 95%;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+
+
+    td,
+    th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+  }
+
+  .user-table {
+    // border-bottom: 2px solid red;
+    overflow: auto;
+    height: 75%;
+    display: flex;
+    justify-content: center;
+
+    .noVisitor {
+      margin: 20px 0;
+    }
+
+    table {
+
+      thead {
+
+        tr {
+
+          th {
+            font-size: 12px;
+            font-weight: 900px;
+            text-align: center;
+          }
+        }
+      }
+
+      tbody {
+
+        td {
+          text-align: center;
+          font-size: 12px;
+
+          img {
+            width: 40px;
+          }
+        }
+
+        .td-name {
+          text-align: left;
+        }
+      }
+    }
+  }
+}
+
+.visitors-formContainer {
+  flex: 2;
+  position: relative;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+
+  .close-regd {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 8px;
+    width: 25px;
+  }
+
+  .formWrapper {
+    // padding: 20px 60px;
+    // border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    // gap: 10px;
+    align-items: center;
+    justify-content: center;
+
+
+
+    .logo {
+      color: #5d5b8d;
+      font-weight: bold;
+      font-size: 24px;
+
+    }
+
+    .title {
+      color: #5d5b8d;
+      font-size: 12px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      input {
+        padding: 15px;
+        border: none;
+        width: 250px;
+        border-bottom: 1px solid #a7bcff;
+
+        &::placeholder {
+          color: rgb(175, 175, 175);
+        }
+      }
+
+      button {
+        background-color: #7b96ec;
+        color: white;
+        padding: 10px;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+      }
+
+      label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #8da4f1;
+        font-size: 12px;
+        cursor: pointer;
+
+        img {
+          width: 32px;
+        }
+      }
+
+      .reg_imageBox {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        label {
+          font-size: 12px;
+          margin-right: 2px;
+          font-weight: 600;
+          margin-right: 5px;
+        }
+
+        img {
+          width: 25px;
+          height: 25px;
+        }
+      }
+    }
+
+    p {
+      color: #5d5b8d;
+      font-size: 12px;
+      margin-top: 10px;
+    }
+  }
+
+}
+
+.login-formContainer {
+  background-color: #a7bcff;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .formWrapper {
+    background-color: white;
+    padding: 20px 60px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+
+    .logo {
+      color: #5d5b8d;
+      font-weight: bold;
+      font-size: 24px;
+
+    }
+
+    .title {
+      color: #5d5b8d;
+      font-size: 12px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      input {
+        padding: 15px;
+        border: none;
+        width: 250px;
+        border-bottom: 1px solid #a7bcff;
+
+        &::placeholder {
+          color: rgb(175, 175, 175);
+        }
+      }
+
+      button {
+        background-color: #7b96ec;
+        color: white;
+        padding: 10px;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+      }
+
+      label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #8da4f1;
+        font-size: 12px;
+        cursor: pointer;
+
+        img {
+          width: 32px;
+        }
+      }
+    }
+
+    p {
+      color: #5d5b8d;
+      font-size: 12px;
+      margin-top: 10px;
+    }
+  }
+}
+
+.regd-formContainer {
   background-color: #a7bcff;
   height: 100vh;
   display: flex;
@@ -140,7 +429,7 @@
   .container {
     border: 1px solid white;
     border-radius: 10px;
-    width: 65%;
+    width: 75%;
     height: 80%;
     display: flex;
     overflow: hidden;
@@ -290,7 +579,24 @@
         padding: 0;
       }
 
-      .add {
+      .add-chats {
+        border: 2px solid #DDDDF7;
+        border-radius: 50%;
+        padding: 5px 5px 4px 5px;
+        width: 20px;
+        margin: 0;
+        position: absolute;
+        bottom: 5px;
+        left: 5px;
+        cursor: pointer;
+        background-color: #4f4d7f;
+
+        &:hover {
+          background-color: #4f4d7f;
+        }
+      }
+
+      .add-users {
         border: 2px solid #DDDDF7;
         border-radius: 50%;
         padding: 4px 4px 4px 5px;
@@ -298,7 +604,7 @@
         margin: 0;
         position: absolute;
         bottom: 5px;
-        left: 5px;
+        right: 5px;
         cursor: pointer;
         background-color: #4f4d7f;
 

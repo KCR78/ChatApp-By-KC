@@ -89,7 +89,7 @@ const Register = () => {
   };
 
   return (
-    <div className="formContainer">
+    <div className="regd-formContainer">
       <div className="formWrapper">
         <span className="logo">ChatApp</span>
         <span className="title">Register</span>

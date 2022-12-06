@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 
@@ -22,7 +22,7 @@ const Login = () => {
   };
 
   return (
-    <div className="formContainer">
+    <div className="login-formContainer">
       <div className="formWrapper">
         <span className="logo">ChatApp</span>
         <span className="title">Login</span>
@@ -32,7 +32,7 @@ const Login = () => {
           <button>Sign in</button>
           {err && <span>Something went wrong</span>}
         </form>
-        <p>You don't have an account? <Link to="/register">Register</Link></p>
+        {/* <p>You don't have an account? <Link to="/register">Register</Link></p> */}
       </div>
     </div>
   );

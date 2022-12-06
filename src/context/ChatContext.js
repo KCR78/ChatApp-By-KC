@@ -13,6 +13,7 @@ export const ChatContext = createContext();
 export const ChatContextProvider = ({ children }) => {
 
   const [newChats, setNewChats] = useState([]);
+  const [isRegisterUserOpen, setIsRegisterUserOpen] = useState(false);
 
   const { currentUser } = useContext(AuthContext);
   const INITIAL_STATE = {
@@ -62,7 +63,7 @@ export const ChatContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(chatReducer, INITIAL_STATE);
 
   return (
-    <ChatContext.Provider value={{ data: state, dispatch, newChats, setNewChats, getAllUsers }}>
+    <ChatContext.Provider value={{ data: state, dispatch, newChats, setNewChats, getAllUsers, isRegisterUserOpen, setIsRegisterUserOpen }}>
       {children}
     </ChatContext.Provider>
   );
