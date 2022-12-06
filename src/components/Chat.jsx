@@ -16,8 +16,6 @@ const Chat = () => {
     dispatch({ type: "REMOVE_USER", payload: u });
   };
 
-  console.log(data);
-
   return (
     <div className="chat">
 
@@ -31,7 +29,7 @@ const Chat = () => {
           <div className="chatInfo">
             <span>
               <img src={data.user.photoURL ? data.user.photoURL : usr} alt="" className="userImage" />
-              {data.user.displayName ? data.user.displayName : data.user.email}
+              {data.user?.displayName}
             </span>
             <div className="chatIcons">
               {/* <img src={Cam} alt="" /> */}

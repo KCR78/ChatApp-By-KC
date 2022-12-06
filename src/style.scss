@@ -527,11 +527,20 @@ input:focus-visible {
 
       .allChats {
         position: absolute;
-        top: 130px;
+        // top: 130px;
         bottom: 0px;
         left: 0px;
         right: 0px;
         overflow-y: auto;
+      }
+
+      .userTop {
+        top: 85px;
+        border-top: 1px solid grey;
+      }
+
+      .adminTop {
+        top: 128px;
       }
 
       .activeChat {

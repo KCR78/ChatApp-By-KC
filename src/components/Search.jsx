@@ -88,7 +88,7 @@ const Search = () => {
         <div className="userChat search_result" onClick={() => handleSelect(user)}>
           <img src={user.photoURL ? user.photoURL : usr} alt="" />
           <div className="userChatInfo">
-            <span>{user.displayName ? user.displayName : user.email}</span>
+            <span>{user?.displayName}</span>
           </div>
         </div>
       )}

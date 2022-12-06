@@ -16,9 +16,7 @@ const Navbar = () => {
       </div>
       <div className="user">
         <img src={currentUser.photoURL ? currentUser.photoURL : usr} alt="" />
-        <span title={`${currentUser.displayName ? currentUser.displayName : currentUser.email}`}>
-          {currentUser.displayName ? currentUser.displayName : currentUser.email}
-        </span>
+        <span title={`${currentUser.displayName}`}>{currentUser.displayName}</span>
       </div>
     </div >
   )

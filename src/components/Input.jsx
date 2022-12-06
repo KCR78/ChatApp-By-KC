@@ -15,7 +15,7 @@ import {
 import { db, storage } from "../firebase";
 import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { dataEncrypt } from "./dataEncryptDcrypt";
+// import { dataEncrypt } from "./dataEncryptDcrypt";
 
 
 const Input = () => {
@@ -33,7 +33,7 @@ const Input = () => {
     let body = {
       to: token,
       notification: {
-        title: `Message from ${currentUser.displayName ? currentUser.displayName : currentUser.email}`,
+        title: `Message from ${currentUser.displayName}`,
         body: textContent,
         click_action: 'https://fcm.googleapis.com/fcm/send'
       }

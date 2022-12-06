@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { auth, provider } from "../firebase";
 
 const Login = () => {
 
@@ -21,6 +21,15 @@ const Login = () => {
     }
   };
 
+  const signInWithGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then(res => {
+        console.log(res);
+        navigate("/");
+      })
+      .catch(err => console.log(err))
+  };
+
   return (
     <div className="login-formContainer">
       <div className="formWrapper">
@@ -33,6 +42,9 @@ const Login = () => {
           {err && <span>Something went wrong</span>}
         </form>
         {/* <p>You don't have an account? <Link to="/register">Register</Link></p> */}
+
+        <button onClick={signInWithGoogle}>Sign In With Google</button>
+
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ import add from "../img/add.png";
 import usr from "../img/user.png";
 import addChats from "../img/add-chats.png";
 import cancel from "../img/cancel.png";
-import { dataDecrypt } from "./dataEncryptDcrypt";
+// import { dataDecrypt } from "./dataEncryptDcrypt";
 
 const Chats = () => {
 
@@ -15,7 +15,7 @@ const Chats = () => {
   const [newChats, setNewChats] = useState([]);
   const [newChatToggle, setNewChatToggle] = useState(false);
 
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, isAdminView } = useContext(AuthContext);
   const { data, dispatch, setIsRegisterUserOpen } = useContext(ChatContext);
 
   useEffect(() => {
@@ -105,50 +105,56 @@ const Chats = () => {
   return (
     <div className="chats">
 
-      <div className="allChats">
-        {typeof chats === 'object' && Object.entries(chats)?.sort((a, b) => b[1].date - a[1].date).map((chat) =>
-          <div
-            className={`userChat ${chat[0] === data.chatId && 'activeChat'}`}
-            key={chat[0]}
-            onClick={() => handleSelect(chat[1].userInfo)}
-          >
-            <img src={chat[1].userInfo.photoURL ? chat[1].userInfo.photoURL : usr} alt="" />
-            <div className="userChatInfo">
-              <span>{chat[1].userInfo.displayName ? chat[1].userInfo.displayName : chat[1].userInfo.email}</span>
-              {/* <p>{chat[1].lastMessage && dataDecrypt(chat[1].lastMessage.text, chat[0])}</p> */}
-              <p>{chat[1].lastMessage && chat[1].lastMessage.text}</p>
+      <div className={`allChats ${isAdminView ? 'adminTop' : 'userTop'}`} >
+        {
+          typeof chats === 'object' && Object.entries(chats)?.sort((a, b) => b[1].date - a[1].date).map((chat) =>
+            <div
+              className={`userChat ${chat[0] === data.chatId && 'activeChat'}`}
+              key={chat[0]}
+              onClick={() => handleSelect(chat[1].userInfo)}
+            >
+              <img src={chat[1].userInfo.photoURL ? chat[1].userInfo.photoURL : usr} alt="" />
+              <div className="userChatInfo">
+                <span>{chat[1].userInfo?.displayName}</span>
+                {/* <p>{chat[1].lastMessage && dataDecrypt(chat[1].lastMessage.text, chat[0])}</p> */}
+                <p>{chat[1].lastMessage && chat[1].lastMessage.text}</p>
+              </div>
             </div>
-          </div>
-        )}
-      </div>
-      <div className="newChats">
-
-        <img src={addChats} onClick={() => setNewChatToggle(true)} className='add-chats' alt="" title="Add New Charts" />
-        <img src={add} onClick={() => setIsRegisterUserOpen(true)} className='add-users' alt="" title="Register New User" />
-
-        {newChatToggle && <div className="users">
-          <div className="heading">
-            <p>All Users</p>
-            <img src={cancel} onClick={() => setNewChatToggle(false)} alt="" />
-          </div>
-
-          {newChats.length > 1 ?
-            <div className="userBox">
-              {newChats.map(item =>
-                item.uid !== currentUser.uid &&
-                <div className="user" onClick={() => selectNewChat(item)} key={item.uid}>
-                  <img src={item.photoURL ? item.photoURL : usr} alt="" />
-                  <p key={item.uid}>{item.displayName ? item.displayName : item.email}</p>
-                </div>
-              )}
-            </div>
-            :
-            <p className="noUser">-- No Users Found -- </p>
-          }
-        </div>
+          )
         }
       </div>
-    </div>
+
+      {isAdminView &&
+        <div className="newChats">
+
+          <img src={addChats} onClick={() => setNewChatToggle(true)} className='add-chats' alt="" title="Add New Charts" />
+          <img src={add} onClick={() => setIsRegisterUserOpen(true)} className='add-users' alt="" title="Register New User" />
+
+          {newChatToggle && <div className="users">
+            <div className="heading">
+              <p>All Users</p>
+              <img src={cancel} onClick={() => setNewChatToggle(false)} alt="" />
+            </div>
+
+            {newChats.length > 1 ?
+              <div className="userBox">
+                {newChats.map(item =>
+                  item.uid !== currentUser.uid &&
+                  <div className="user" onClick={() => selectNewChat(item)} key={item.uid}>
+                    <img src={item.photoURL ? item.photoURL : usr} alt="" />
+                    <p key={item.uid}>{item?.displayName}</p>
+                  </div>
+                )}
+              </div>
+              :
+              <p className="noUser">-- No Users Found -- </p>
+            }
+          </div>
+          }
+        </div>
+      }
+
+    </div >
   );
 };
 

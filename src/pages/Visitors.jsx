@@ -19,8 +19,6 @@ const Visitors = () => {
 
     const emailRef = useRef();
 
-    console.log(allUsersList);
-
     useEffect(() => {
         const getAllUsers = async () => {
 
