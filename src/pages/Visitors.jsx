@@ -93,7 +93,7 @@ const Visitors = () => {
             {!showAddUser ?
                 <div className="user-lists">
                     <img src={cancel} alt="" className="close-regd" onClick={() => setIsRegisterUserOpen(false)} />
-                    <div className="head">User Lists</div>
+                    <div className="head">Visitors</div>
 
                     <div className="user-table">
 
@@ -117,7 +117,7 @@ const Visitors = () => {
                                 </tbody>
                             </table>
                             :
-                            <p className="noVisitor">-- No Users Found -- </p>
+                            <p className="noVisitor">-- No Visitors Found -- </p>
                         }
                     </div>
 
