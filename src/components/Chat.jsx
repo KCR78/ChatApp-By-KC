@@ -12,8 +12,8 @@ const Chat = () => {
 
   const { data, dispatch } = useContext(ChatContext);
 
-  const handleRemove = (u) => {
-    dispatch({ type: "REMOVE_USER", payload: u });
+  const handleRemove = () => {
+    dispatch({ type: "REMOVE_USER", payload: null });
   };
 
   return (

@@ -28,13 +28,12 @@ const Input = () => {
   const { data } = useContext(ChatContext);
 
 
-  const pushNotification = (token, textContent) => {
+  const pushNotification = (token) => {
 
     let body = {
       to: token,
       notification: {
-        title: `Message from ${currentUser.displayName}`,
-        body: textContent,
+        title: `You have one message.`,
         click_action: 'https://fcm.googleapis.com/fcm/send'
       }
     };
@@ -100,7 +99,7 @@ const Input = () => {
               }),
             });
 
-            pushNotification(regdToken, text === '' ? 'Image' : text.substring(0, 30));
+            pushNotification(regdToken);
             updtDocs(text !== '' ? text.substring(0, 20) : 'Image');
           });
         }
@@ -118,9 +117,8 @@ const Input = () => {
           }),
         });
 
-        pushNotification(regdToken, text.substring(0, 30));
+        pushNotification(regdToken);
         updtDocs(text !== '' ? text.substring(0, 20) : 'Image');
-
       }
     };
 

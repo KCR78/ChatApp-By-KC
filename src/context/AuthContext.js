@@ -3,7 +3,6 @@ import { auth, db, messaging } from "../firebase";
 import { onAuthStateChanged, signOut, updateProfile } from "firebase/auth";
 import { collection, doc, getDocs, query, setDoc, where } from "firebase/firestore";
 import { getToken } from "firebase/messaging";
-import { async } from "@firebase/util";
 
 export const AuthContext = createContext();
 
@@ -103,7 +102,6 @@ export const AuthContextProvider = ({ children }) => {
           const querySnapshot = await getDocs(adminQry);
           querySnapshot.forEach((doc) => {
             const data = doc.data();
-            console.log(data);
             if (data.email === user.email) {
               console.log('Matched... Its a Admin.');
               isUserAdmin = true;
@@ -134,7 +132,6 @@ export const AuthContextProvider = ({ children }) => {
             const querySnapshot = await getDocs(vstrQry);
             querySnapshot.forEach((doc) => {
               const usr = doc.data();
-              console.log(usr);
               if (usr) {
                 console.log('Its a Visitor.');
                 isProceed = true;

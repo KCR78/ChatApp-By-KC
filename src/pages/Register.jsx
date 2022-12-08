@@ -31,7 +31,7 @@ const Register = () => {
       passRef.current.value.trim() === '' ||
       !isImg
     ) {
-      setErr('Please add all value.');
+      setErr('Please add all values.');
     } else if (dispNamRef.current.value.trim().length > 20) {
       setErr(`Name can't be exceed more that 20 characters`);
     }

@@ -54,6 +54,7 @@ const Chats = () => {
   }, []);
 
   const handleSelect = (u) => {
+    setIsRegisterUserOpen(false);
     dispatch({ type: "CHANGE_USER", payload: u });
   };
 
@@ -128,7 +129,14 @@ const Chats = () => {
         <div className="newChats">
 
           <img src={addChats} onClick={() => setNewChatToggle(true)} className='add-chats' alt="" title="Add New Charts" />
-          <img src={add} onClick={() => setIsRegisterUserOpen(true)} className='add-users' alt="" title="Register New User" />
+          <img
+            src={add}
+            className='add-users' alt="" title="Add New Visitor"
+            onClick={() => {
+              setIsRegisterUserOpen(true);
+              dispatch({ type: "REMOVE_USER", payload: null });
+            }}
+          />
 
           {newChatToggle && <div className="users">
             <div className="heading">
