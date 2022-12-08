@@ -41,6 +41,84 @@ input:focus-visible {
   color: red;
 }
 
+.lockedScreen {
+  width: 100%;
+  height: 100vh;
+  background-color: #211f20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    height: 50%;
+  }
+}
+
+.locker {
+  position: absolute;
+  top: 70%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+
+
+  .react-lock-screen__ui {
+    width: 300px;
+    // position: fixed;
+    // border: 4px solid #fff;
+    // background: #fff;
+    text-align: center;
+    padding: 16px;
+    border-radius: 4px;
+    // top: calc(30% - 152px / 2);
+    // left: calc(49% - 300px / 2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    button {
+      padding: 5px 15px;
+      border: 0;
+      text-transform: uppercase;
+      background: #fff;
+      color: #333;
+      margin-top: 15px;
+      border-radius: 3px;
+      letter-spacing: 1px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .pinBox {
+      --width: 296px;
+      --height: 74px;
+      --spacing: 47px;
+
+      display: inline-block;
+      position: relative;
+      width: var(--width);
+      height: var(--height);
+      background-image: url(https://i.stack.imgur.com/JbkZl.png);
+
+
+      input {
+        background: transparent !important;
+        padding-left: 21px;
+        font-family: courier, monospaced;
+        font-size: var(--spacing);
+        height: var(--height);
+        width: var(--width);
+        letter-spacing: var(--spacing);
+        border: 0;
+        outline: none;
+        clip: rect(0px, calc(var(--width) - 21px), var(--height), 0px);
+      }
+    }
+  }
+}
+
 .user-lists {
   flex: 2;
   // padding: 20px;
