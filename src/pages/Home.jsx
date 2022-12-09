@@ -71,7 +71,15 @@ const Home = () => {
       <div className='locker'>
         <div className="react-lock-screen__ui">
           <div className="pinBox">
-            <input name="token" type='password' maxLength='6' autoFocus autoComplete='off' onChange={(e) => passKey = e.target.value} />
+            <input
+              name="token"
+              type='password'
+              maxLength='6'
+              autoFocus
+              autoComplete='off'
+              onKeyPress={(e) => e.key === "Enter" && unlockScreen()}
+              onChange={(e) => passKey = e.target.value}
+            />
           </div>
 
           <button onClick={unlockScreen}>unlock</button>

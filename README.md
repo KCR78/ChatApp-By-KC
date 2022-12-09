@@ -2,6 +2,19 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Configure Environment Values.
+
+Create ENV file in root folder and add following values.
+
+REACT_APP_API_KEY = "<values>"
+REACT_APP_AUTH_DOMAIN = "<values>"
+REACT_APP_PROJECT_ID = "<values>"
+REACT_APP_STORAGE_BUCKET = "<values>"
+REACT_APP_MESSAGING_SENDER_ID = "<values>"
+REACT_APP_APP_ID = "<values>"
+REACT_APP_MEASUREMENT_ID = "<values>"
+
+
 ## Available Scripts
 
 In the project directory, you can run:

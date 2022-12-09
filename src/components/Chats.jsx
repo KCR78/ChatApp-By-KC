@@ -7,7 +7,7 @@ import add from "../img/add.png";
 import usr from "../img/user.png";
 import addChats from "../img/add-chats.png";
 import cancel from "../img/cancel.png";
-// import { dataDecrypt } from "./dataEncryptDcrypt";
+import CryptoJS from 'crypto-js';
 
 const Chats = () => {
 
@@ -17,6 +17,14 @@ const Chats = () => {
 
   const { currentUser, isAdminView } = useContext(AuthContext);
   const { data, dispatch, setIsRegisterUserOpen } = useContext(ChatContext);
+
+
+  const decr = (msg, key) => {
+    var bytes = CryptoJS.AES.decrypt(msg, key);
+    var data = bytes.toString(CryptoJS.enc.Utf8);
+    return data === '' ? '' : JSON.parse(data).text;
+  };
+
 
   useEffect(() => {
     const getChats = () => {
@@ -117,8 +125,7 @@ const Chats = () => {
               <img src={chat[1].userInfo.photoURL ? chat[1].userInfo.photoURL : usr} alt="" />
               <div className="userChatInfo">
                 <span>{chat[1].userInfo?.displayName}</span>
-                {/* <p>{chat[1].lastMessage && dataDecrypt(chat[1].lastMessage.text, chat[0])}</p> */}
-                <p>{chat[1].lastMessage && chat[1].lastMessage.text}</p>
+                <p>{chat[1].lastMessage && decr(chat[1].lastMessage.text, chat[0])}</p>
               </div>
             </div>
           )
