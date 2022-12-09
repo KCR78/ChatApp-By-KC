@@ -6,14 +6,14 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Create ENV file in root folder and add following values.
 
-REACT_APP_API_KEY = "<values>"
-REACT_APP_AUTH_DOMAIN = "<values>"
-REACT_APP_PROJECT_ID = "<values>"
-REACT_APP_STORAGE_BUCKET = "<values>"
-REACT_APP_MESSAGING_SENDER_ID = "<values>"
-REACT_APP_APP_ID = "<values>"
-REACT_APP_MEASUREMENT_ID = "<values>"
-
+REACT_APP_API_KEY = "<value>"
+REACT_APP_AUTH_DOMAIN = "<value>"
+REACT_APP_PROJECT_ID = "<value>"
+REACT_APP_STORAGE_BUCKET = "<value>"
+REACT_APP_MESSAGING_SENDER_ID = "<value>"
+REACT_APP_APP_ID = "<value>"
+REACT_APP_MEASUREMENT_ID = "<value>"
+REACT_APP_LOCK_TIME_IN_SECOND = <value>
 
 ## Available Scripts
 

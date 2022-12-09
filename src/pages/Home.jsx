@@ -16,8 +16,9 @@ const Home = () => {
   const { isRegisterUserOpen } = useContext(ChatContext);
   const { currentUser, isAdminView } = useContext(AuthContext);
 
+  const EnvLockTime = process.env.REACT_APP_LOCK_TIME_IN_SECOND;
   const [isLockedScreen, setIsLockedScreen] = useState(false);
-  const [lockTimer, setLockTimer] = useState(30000);
+  const [lockTimer, setLockTimer] = useState(EnvLockTime * 1000);
   const [err, setErr] = useState();
 
   useEffect(() => { setIsLockedScreen(true); setLockTimer(0); }, []);
@@ -55,7 +56,7 @@ const Home = () => {
             console.log('Correct Pin.');
             setLock(false);
             setIsLockedScreen(false);
-            setLockTimer(30000);
+            setLockTimer(EnvLockTime * 1000);
           } else {
             console.log('Incorrect Pin.');
             setErr('Incorrect Pin');
