@@ -7,7 +7,8 @@ import add from "../img/add.png";
 import usr from "../img/user.png";
 import addChats from "../img/add-chats.png";
 import cancel from "../img/cancel.png";
-import CryptoJS from 'crypto-js';
+// import CryptoJS from 'crypto-js';
+import { dataDecrypt } from "./dataEncryptDcrypt";
 
 const Chats = () => {
 
@@ -20,9 +21,12 @@ const Chats = () => {
 
 
   const decr = (msg, key) => {
-    var bytes = CryptoJS.AES.decrypt(msg, key);
-    var data = bytes.toString(CryptoJS.enc.Utf8);
-    return data === '' ? '' : JSON.parse(data).text;
+    // var bytes = CryptoJS.AES.decrypt(msg, key);
+    // var data = bytes.toString(CryptoJS.enc.Utf8);
+    // return data === '' ? '' : JSON.parse(data).text;
+
+    const data = dataDecrypt(msg, key);
+    return data === '' ? '' : data;
   };
 
 

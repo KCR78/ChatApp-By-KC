@@ -3,7 +3,8 @@ import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
 import usr from '../img/user.png'
 import { useState } from "react";
-import CryptoJS from 'crypto-js';
+// import CryptoJS from 'crypto-js';
+import { dataDecrypt } from "./dataEncryptDcrypt";
 
 const Message = ({ message, chatId }) => {
 
@@ -18,9 +19,12 @@ const Message = ({ message, chatId }) => {
   }, [message]);
 
   useEffect(() => {
-    var bytes = CryptoJS.AES.decrypt(message.text, chatId);
-    var data = bytes.toString(CryptoJS.enc.Utf8);
-    setMsg(data === '' ? '' : JSON.parse(data).text);
+    // var bytes = CryptoJS.AES.decrypt(message.text, chatId);
+    // var data = bytes.toString(CryptoJS.enc.Utf8);
+    // setMsg(data === '' ? '' : JSON.parse(data).text);
+
+    const data = dataDecrypt(message.text, chatId);
+    setMsg(data === '' ? '' : data);
   }, [message, chatId]);
 
   return (
