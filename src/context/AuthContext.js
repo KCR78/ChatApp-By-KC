@@ -49,7 +49,7 @@ export const AuthContextProvider = ({ children }) => {
         }
 
         console.log('Creating Token......');
-        getToken(messaging, { vapidKey: 'BG9avsAhLPsY9k2b0FZpTCwcsWEkT3lqSkAyL2k6Duo94BnxEXMkoD0kzrLsZwz7dKSP6jq0MBsppDmnukwO9RY' }).then((currentToken) => {
+        getToken(messaging, { vapidKey: process.env.REACT_APP_VAPID_KEY }).then((currentToken) => {
           if (currentToken) {
             user['token_id'] = currentToken;
             user['isAdmin'] = isUserAdmin;
