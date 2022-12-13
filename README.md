@@ -13,6 +13,7 @@ REACT_APP_STORAGE_BUCKET = "<value>"
 REACT_APP_MESSAGING_SENDER_ID = "<value>"
 REACT_APP_APP_ID = "<value>"
 REACT_APP_MEASUREMENT_ID = "<value>"
+REACT_APP_VAPID_KEY = "<value>"
 REACT_APP_LOCK_TIME_IN_SECOND = <value>
 
 ## Available Scripts
