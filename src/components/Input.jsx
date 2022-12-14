@@ -50,7 +50,7 @@ const Input = () => {
     fetch('https://fcm.googleapis.com/fcm/send', options).then().catch(e => console.log(e));
   };
 
-  const updtDocs = async (textContent) => {
+  const updtDocs = async (textContent, ids) => {
     await updateDoc(doc(db, "userChats", currentUser.uid), {
       [data.chatId + ".lastMessage"]: {
         text: dataEncrypt(textContent, data.chatId),
@@ -63,6 +63,7 @@ const Input = () => {
         text: dataEncrypt(textContent, data.chatId),
       },
       [data.chatId + ".date"]: serverTimestamp(),
+      [data.chatId + ".unReadMsgIds"]: arrayUnion(ids)
     });
   };
 
@@ -71,7 +72,7 @@ const Input = () => {
     const result = await getDoc(doc(db, "fcmTokens", data.user.uid));
     // This registration token comes from the client FCM SDKs.
     const regdToken = result.data().token_id;
-
+    const ids = uuid();
 
     if (img) {
       const storageRef = ref(storage, uuid());
@@ -88,7 +89,7 @@ const Input = () => {
 
             await updateDoc(doc(db, "chats", data.chatId), {
               messages: arrayUnion({
-                id: uuid(),
+                id: ids,
                 text: dataEncrypt(text, data.chatId),
                 senderId: currentUser.uid,
                 date: Timestamp.now(),
@@ -97,7 +98,7 @@ const Input = () => {
             });
 
             pushNotification(regdToken);
-            updtDocs(text !== '' ? text.substring(0, 20) : 'Image');
+            updtDocs(text !== '' ? text.substring(0, 20) : 'Image', ids);
           });
         }
       );
@@ -106,7 +107,7 @@ const Input = () => {
 
         await updateDoc(doc(db, "chats", data.chatId), {
           messages: arrayUnion({
-            id: uuid(),
+            id: ids,
             text: dataEncrypt(text, data.chatId),
             senderId: currentUser.uid,
             date: Timestamp.now(),
@@ -114,7 +115,7 @@ const Input = () => {
         });
 
         pushNotification(regdToken);
-        updtDocs(text !== '' ? text.substring(0, 20) : 'Image');
+        updtDocs(text !== '' ? text.substring(0, 20) : 'Image', ids);
       }
     };
 

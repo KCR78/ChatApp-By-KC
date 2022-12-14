@@ -12,12 +12,10 @@ import { dataDecrypt } from "./dataEncryptDcrypt";
 
 const Chats = () => {
 
-  const [chats, setChats] = useState([]);
-  const [newChats, setNewChats] = useState([]);
   const [newChatToggle, setNewChatToggle] = useState(false);
 
   const { currentUser, isAdminView } = useContext(AuthContext);
-  const { data, dispatch, setIsRegisterUserOpen } = useContext(ChatContext);
+  const { data, dispatch, setIsRegisterUserOpen, chats, setChats, newChats, setNewChats, setMessages } = useContext(ChatContext);
 
 
   const decr = (msg, key) => {
@@ -42,7 +40,7 @@ const Chats = () => {
     };
 
     currentUser.uid && getChats();
-  }, [currentUser.uid]);
+  }, [currentUser.uid, setChats]);
 
   useEffect(() => {
     const getAllUsers = async () => {
@@ -63,9 +61,10 @@ const Chats = () => {
     };
 
     getAllUsers();
-  }, []);
+  }, [setNewChats]);
 
   const handleSelect = (u) => {
+    setMessages([]);
     setIsRegisterUserOpen(false);
     dispatch({ type: "CHANGE_USER", payload: u });
   };
@@ -131,6 +130,11 @@ const Chats = () => {
                 <span>{chat[1].userInfo?.displayName}</span>
                 <p>{chat[1].lastMessage && decr(chat[1].lastMessage.text, chat[0])}</p>
               </div>
+              {chat[1].unReadMsgIds && chat[1].unReadMsgIds.length > 0 &&
+                <span className="unReadCount">
+                  {chat[1].unReadMsgIds.length}
+                </span>
+              }
             </div>
           )
         }

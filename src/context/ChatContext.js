@@ -5,14 +5,15 @@ import {
   useState,
 } from "react";
 import { AuthContext } from "./AuthContext";
-import { collection, query, getDocs } from "firebase/firestore";
-import { db } from "../firebase";
 
 export const ChatContext = createContext();
 
 export const ChatContextProvider = ({ children }) => {
 
   const [newChats, setNewChats] = useState([]);
+  const [chats, setChats] = useState([]);
+  const [messages, setMessages] = useState([]);
+
   const [isRegisterUserOpen, setIsRegisterUserOpen] = useState(false);
 
   const { currentUser } = useContext(AuthContext);
@@ -44,26 +45,11 @@ export const ChatContextProvider = ({ children }) => {
     }
   };
 
-  const getAllUsers = async () => {
-    setNewChats([]);
-    const q = query(collection(db, "users"));
-
-    try {
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        newChats.push(doc.data());
-        setNewChats(v => v);
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
 
   const [state, dispatch] = useReducer(chatReducer, INITIAL_STATE);
 
   return (
-    <ChatContext.Provider value={{ data: state, dispatch, newChats, setNewChats, getAllUsers, isRegisterUserOpen, setIsRegisterUserOpen }}>
+    <ChatContext.Provider value={{ data: state, dispatch, isRegisterUserOpen, setIsRegisterUserOpen, chats, setChats, newChats, setNewChats, messages, setMessages }}>
       {children}
     </ChatContext.Provider>
   );

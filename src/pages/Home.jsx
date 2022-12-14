@@ -16,7 +16,7 @@ const Home = () => {
   const { isRegisterUserOpen } = useContext(ChatContext);
   const { currentUser, isAdminView } = useContext(AuthContext);
 
-  const EnvLockTime = process.env.REACT_APP_LOCK_TIME_IN_SECOND;
+  const EnvLockTime = 100;
   const [isLockedScreen, setIsLockedScreen] = useState(false);
   const [lockTimer, setLockTimer] = useState(EnvLockTime * 1000);
   const [err, setErr] = useState();

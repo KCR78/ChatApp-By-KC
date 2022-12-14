@@ -5,11 +5,13 @@ import usr from '../img/user.png'
 import { useState } from "react";
 // import CryptoJS from 'crypto-js';
 import { dataDecrypt } from "./dataEncryptDcrypt";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 const Message = ({ message, chatId }) => {
 
   const { currentUser } = useContext(AuthContext);
-  const { data } = useContext(ChatContext);
+  const { data, chats } = useContext(ChatContext);
 
   const [msg, setMsg] = useState('');
   const ref = useRef();
@@ -26,6 +28,23 @@ const Message = ({ message, chatId }) => {
     const data = dataDecrypt(message.text, chatId);
     setMsg(data === '' ? '' : data);
   }, [message, chatId]);
+
+  useEffect(() => {
+
+    if (chats[chatId] && chats[chatId].unReadMsgIds && chats[chatId].unReadMsgIds.length > 0) {
+      if (chats[chatId].unReadMsgIds.includes(message.id)) {
+
+        const tempArr = chats[chatId].unReadMsgIds.filter(item => item !== message.id);
+
+        updateDoc(doc(db, "userChats", currentUser.uid), {
+          [chatId + ".unReadMsgIds"]: tempArr
+        });
+
+      }
+    }
+
+
+  }, [chats, chatId, message, currentUser]);
 
   return (
     <div
