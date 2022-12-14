@@ -64,9 +64,11 @@ const Chats = () => {
   }, [setNewChats]);
 
   const handleSelect = (u) => {
-    setMessages([]);
-    setIsRegisterUserOpen(false);
-    dispatch({ type: "CHANGE_USER", payload: u });
+    if (data && data.user.uid !== u.uid) {
+      setMessages([]);
+      setIsRegisterUserOpen(false);
+      dispatch({ type: "CHANGE_USER", payload: u });
+    };
   };
 
   const selectNewChat = async (data) => {
