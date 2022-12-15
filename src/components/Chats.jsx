@@ -15,7 +15,14 @@ const Chats = () => {
   const [newChatToggle, setNewChatToggle] = useState(false);
 
   const { currentUser, isAdminView } = useContext(AuthContext);
-  const { data, dispatch, setIsRegisterUserOpen, chats, setChats, newChats, setNewChats, setMessages } = useContext(ChatContext);
+  const { data, dispatch,
+    setIsRegisterUserOpen,
+    chats, setChats,
+    newChats, setNewChats,
+    setMessages,
+    unReadMsgCount, setUnReadMsgCount,
+    unReadMsgUserIds, setUnReadMsgUserIds,
+  } = useContext(ChatContext);
 
 
   const decr = (msg, key) => {
@@ -32,6 +39,24 @@ const Chats = () => {
     const getChats = () => {
       const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
         setChats(doc.data());
+
+        const chts = doc.data();
+        let count = 0;
+        const temp = unReadMsgUserIds;
+
+        Object.entries(chts)?.forEach((chat, i) => {
+          if (chat[0] !== data.chatId && chat[1].unReadMsgIds && chat[1].unReadMsgIds.length > 0) {
+            count += chat[1].unReadMsgIds.length;
+
+            // set unique unRead Msg User Ids to array.
+            temp.push(chat[0]);
+            let unique = [...new Set(temp)];
+            setUnReadMsgUserIds(unique);
+          };
+        });
+
+        setUnReadMsgCount(count);
+
       });
 
       return () => {
@@ -40,7 +65,7 @@ const Chats = () => {
     };
 
     currentUser.uid && getChats();
-  }, [currentUser.uid, setChats]);
+  }, [currentUser.uid, data.chatId, setChats, setUnReadMsgCount, setUnReadMsgUserIds, unReadMsgCount, unReadMsgUserIds]);
 
   useEffect(() => {
     const getAllUsers = async () => {

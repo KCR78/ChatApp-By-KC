@@ -13,11 +13,17 @@ import { AuthContext } from '../context/AuthContext';
 
 const Home = () => {
 
-  const { isRegisterUserOpen } = useContext(ChatContext);
+  const { data, isRegisterUserOpen,
+    unReadMsgCount, setUnReadMsgCount,
+    unReadMsgUserIds, setUnReadMsgUserIds,
+    unReadCount, setUnReadCount,
+  } = useContext(ChatContext);
   const { currentUser, isAdminView } = useContext(AuthContext);
 
   const EnvLockTime = 100;
-  const [isLockedScreen, setIsLockedScreen] = useState(false);
+
+  const [passKey, setPassKey] = useState('');
+  const [isLockedScreen, setIsLockedScreen] = useState(true);
   const [lockTimer, setLockTimer] = useState(EnvLockTime * 1000);
   const [err, setErr] = useState();
 
@@ -37,8 +43,6 @@ const Home = () => {
 
   const getLockScreenUi = setLock => {
 
-    let passKey = '';
-
     const unlockScreen = async () => {
       setErr();
 
@@ -57,6 +61,7 @@ const Home = () => {
             setLock(false);
             setIsLockedScreen(false);
             setLockTimer(EnvLockTime * 1000);
+            setPassKey('');
           } else {
             console.log('Incorrect Pin.');
             setErr('Incorrect Pin');
@@ -79,7 +84,7 @@ const Home = () => {
               autoFocus
               autoComplete='off'
               onKeyPress={(e) => e.key === "Enter" && unlockScreen()}
-              onChange={(e) => passKey = e.target.value}
+              onChange={(e) => setPassKey(e.target.value)}
             />
           </div>
 
@@ -89,6 +94,24 @@ const Home = () => {
       </div>
     );
   };
+
+
+  useEffect(() => {
+    if (unReadMsgCount > unReadCount) {
+      console.log("**** NOTIFICATION ****");
+
+      if (isLockedScreen) { console.log('Locked'); alert("**** NOTIFICATION ****"); }
+
+      else if (!isLockedScreen && data.chatId === 'null') { console.log('UnLocked And Null User'); alert("**** NOTIFICATION ****"); }
+      else if (!isLockedScreen && data.chatId !== 'null' && unReadMsgUserIds.filter(item => item !== data.chatId).length > 0) {
+        console.log('UnLocked and Active USER');
+        alert("**** NOTIFICATION ****");
+      }
+
+    };
+    setUnReadCount(unReadMsgCount);
+  }, [data, isLockedScreen, unReadMsgCount, unReadCount, unReadMsgUserIds, setUnReadCount, setUnReadMsgCount, setUnReadMsgUserIds]);
+
 
   return (
     <LockScreen

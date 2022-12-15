@@ -16,7 +16,14 @@ export const ChatContextProvider = ({ children }) => {
 
   const [isRegisterUserOpen, setIsRegisterUserOpen] = useState(false);
 
+  // Notification constants
+  const [unReadMsgUserIds, setUnReadMsgUserIds] = useState([]);
+  const [unReadMsgCount, setUnReadMsgCount] = useState(0);
+  const [unReadCount, setUnReadCount] = useState(0);
+
+
   const { currentUser } = useContext(AuthContext);
+
   const INITIAL_STATE = {
     chatId: "null",
     user: {},
@@ -49,7 +56,16 @@ export const ChatContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(chatReducer, INITIAL_STATE);
 
   return (
-    <ChatContext.Provider value={{ data: state, dispatch, isRegisterUserOpen, setIsRegisterUserOpen, chats, setChats, newChats, setNewChats, messages, setMessages }}>
+    <ChatContext.Provider value={{
+      data: state, dispatch,
+      isRegisterUserOpen, setIsRegisterUserOpen,
+      chats, setChats,
+      newChats, setNewChats,
+      messages, setMessages,
+      unReadMsgCount, setUnReadMsgCount,
+      unReadMsgUserIds, setUnReadMsgUserIds,
+      unReadCount, setUnReadCount,
+    }}>
       {children}
     </ChatContext.Provider>
   );
