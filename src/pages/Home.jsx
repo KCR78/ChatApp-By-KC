@@ -10,6 +10,7 @@ import locked from '../img/locked.jpg';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase';
 import { AuthContext } from '../context/AuthContext';
+import { useCallback } from 'react';
 
 const Home = () => {
 
@@ -32,11 +33,11 @@ const Home = () => {
   useEffect(() => {
     document.addEventListener("visibilitychange", function () {
       if (document.hidden) {
-        // console.log("Browser tab is hidden");
+        console.log("Browser tab is hidden");
         setIsLockedScreen(true);
         setLockTimer(0);
       } else {
-        // console.log("Browser tab is visible");
+        console.log("Browser tab is visible");
       }
     });
   }, []);
@@ -95,22 +96,60 @@ const Home = () => {
     );
   };
 
+  const showPushNotification = useCallback(() => {
+
+    navigator.serviceWorker.register('firebase-messaging-sw.js');
+
+    if (!("Notification" in window)) {
+      // Check if the browser supports notifications
+      alert("This browser does not support desktop notification");
+    } else if (Notification.permission === "granted") {
+      // Check whether notification permissions have already been granted;
+      // if so, create a notification
+      // const notification = new Notification("You have one message!");
+      // notification.onclick = function () {
+      //   window.parent.focus();
+      //   notification.close();
+      // };
+
+      navigator.serviceWorker.ready.then(function (registration) {
+        registration.showNotification("You have one new message!", {
+          icon: '/chatapp.png',
+          vibrate: [300, 100, 400, 100, 300, 100, 400]
+        });
+        // const notification = registration.showNotification('You have one message!');
+        // notification.onclick = function () {
+        //   window.parent.focus();
+        //   notification.close();
+        // };
+      });
+
+
+    } else if (Notification.permission !== "denied") {
+      // We need to ask the user for permission
+      Notification.requestPermission().then((permission) => {
+        // If the user accepts, let's create a notification
+        if (permission === "granted") showPushNotification();
+      });
+    };
+  }, []);
+
 
   useEffect(() => {
     if (unReadMsgCount > unReadCount) {
       console.log("**** NOTIFICATION ****");
 
-      if (isLockedScreen) { console.log('Locked'); alert("**** NOTIFICATION ****"); }
+      if (isLockedScreen) { console.log('Locked'); showPushNotification(); }
 
-      else if (!isLockedScreen && data.chatId === 'null') { console.log('UnLocked And Null User'); alert("**** NOTIFICATION ****"); }
+      else if (!isLockedScreen && data.chatId === 'null') { console.log('UnLocked And Null User'); showPushNotification(); }
       else if (!isLockedScreen && data.chatId !== 'null' && unReadMsgUserIds.filter(item => item !== data.chatId).length > 0) {
         console.log('UnLocked and Active USER');
-        alert("**** NOTIFICATION ****");
+        showPushNotification();
       }
 
     };
     setUnReadCount(unReadMsgCount);
-  }, [data, isLockedScreen, unReadMsgCount, unReadCount, unReadMsgUserIds, setUnReadCount, setUnReadMsgCount, setUnReadMsgUserIds]);
+  }, [data, isLockedScreen, unReadMsgCount, unReadCount, unReadMsgUserIds, setUnReadCount, setUnReadMsgCount, setUnReadMsgUserIds, showPushNotification]);
 
 
   return (
