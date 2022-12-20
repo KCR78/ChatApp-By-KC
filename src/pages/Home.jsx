@@ -33,11 +33,11 @@ const Home = () => {
   useEffect(() => {
     document.addEventListener("visibilitychange", function () {
       if (document.hidden) {
-        console.log("Browser tab is hidden");
+        // console.log("Browser tab is hidden");
         setIsLockedScreen(true);
         setLockTimer(0);
       } else {
-        console.log("Browser tab is visible");
+        // console.log("Browser tab is visible");
       }
     });
   }, []);
