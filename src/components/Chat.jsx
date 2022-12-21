@@ -17,7 +17,7 @@ const Chat = () => {
   };
 
   return (
-    <div className="chat">
+    <div className={window.innerWidth > 480 ? 'chat' : data.chatId === 'null' ? 'chat widthZero' : 'chat widthFull'}>
 
       {data.chatId === 'null' ?
         <div className="demoInfo">

@@ -178,8 +178,13 @@ const Home = () => {
         :
         <div className='home'>
           <div className="container">
-            <Sidebar />
-            {isRegisterUserOpen ? <Visitors /> : <Chat />}
+            {isRegisterUserOpen ? <Visitors />
+              :
+              <>
+                <Sidebar />
+                <Chat />
+              </>
+            }
           </div>
         </div>
       }

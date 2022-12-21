@@ -10,6 +10,12 @@
   }
 }
 
+@mixin tabletLandscape {
+  @media screen and (max-width: 1024px) {
+    @content;
+  }
+}
+
 @mixin laptop {
   @media screen and (max-width: 1200px) {
     @content;
@@ -18,6 +24,14 @@
 
 input:focus-visible {
   outline: 0 !important;
+}
+
+.widthZero {
+  width: 0% !important;
+}
+
+.widthFull {
+  width: 100% !important;
 }
 
 ::-webkit-scrollbar {
@@ -115,45 +129,15 @@ input:focus-visible {
         margin-right: 0px !important;
       }
     }
-
-    // .pinBox {
-    //   --width: 450px;
-    //   --height: 74px;
-    //   --spacing: 47px;
-
-    //   display: inline-block;
-    //   position: relative;
-    //   width: var(--width);
-    //   height: var(--height);
-    //   background-image: url(https://i.stack.imgur.com/JbkZl.png);
-
-
-    //   input {
-    //     background: transparent !important;
-    //     padding-left: 21px;
-    //     font-family: courier, monospaced;
-    //     font-size: var(--spacing);
-    //     height: var(--height);
-    //     width: var(--width);
-    //     letter-spacing: var(--spacing);
-    //     border: 0;
-    //     outline: none;
-    //     clip: rect(0px, calc(var(--width) - 21px), var(--height), 0px);
-    //   }
-    // }
   }
 }
 
 .user-lists {
-  flex: 2;
-  // padding: 20px;
+  width: 100%;
   position: relative;
   background-color: white;
   display: flex;
   flex-direction: column;
-  // justify-content: center;
-  // overflow: auto;
-  // align-items: center;
 
   .close-regd {
     cursor: pointer;
@@ -206,7 +190,6 @@ input:focus-visible {
   }
 
   .user-table {
-    // border-bottom: 2px solid red;
     overflow: auto;
     height: 75%;
     display: flex;
@@ -275,7 +258,8 @@ input:focus-visible {
 }
 
 .visitors-formContainer {
-  flex: 2;
+  // flex: 2;
+  width: 100%;
   position: relative;
   background-color: white;
   display: flex;
@@ -291,11 +275,8 @@ input:focus-visible {
   }
 
   .formWrapper {
-    // padding: 20px 60px;
-    // border-radius: 10px;
     display: flex;
     flex-direction: column;
-    // gap: 10px;
     align-items: center;
     justify-content: center;
 
@@ -585,20 +566,28 @@ input:focus-visible {
     display: flex;
     overflow: hidden;
 
-    @include tablet {
-      width: 90%;
+    @include tabletLandscape() {
+      border: none;
+      border-radius: 0px;
+      width: 100%;
+      height: 100%;
     }
 
     .sidebar {
-      flex: 1;
+      // flex: 1;
+      width: 30%;
+      overflow: hidden;
       background-color: #3e3c61;
       position: relative;
+
+      @include mobile {
+        width: 100%;
+      }
+
 
       .navbar {
         display: flex;
         flex-direction: column;
-        // align-items: center;
-        // justify-content: space-around;
         background-color: #2f2d52;
         height: 65px;
         padding: 10px;
@@ -616,12 +605,14 @@ input:focus-visible {
             margin-bottom: 2px;
           }
 
+
+          @include mobile {
+            font-size: 20px;
+            margin-bottom: 2px;
+          }
+
           .logo {
             font-weight: bold;
-
-            // @include tablet {
-            //   display: none;
-            // }
           }
 
           button {
@@ -641,7 +632,12 @@ input:focus-visible {
 
         .user {
           display: flex;
+          align-items: center;
           gap: 10px;
+
+          @include mobile {
+            font-size: 18px;
+          }
 
           img {
             background-color: #ddddf7;
@@ -649,6 +645,11 @@ input:focus-visible {
             width: 24px;
             border-radius: 50%;
             object-fit: cover;
+
+            @include mobile {
+              height: 30px;
+              width: 30px;
+            }
           }
 
         }
@@ -666,6 +667,7 @@ input:focus-visible {
             border: none;
             color: white;
             outline: none;
+            width: 100%;
 
             &::placeholder {
               color: lightgray;
@@ -855,7 +857,11 @@ input:focus-visible {
     }
 
     .chat {
-      flex: 2;
+      width: 70%;
+
+      @include mobile {
+        width: 0%;
+      }
 
       .demoInfo {
         background-color: #ddddf7;
@@ -901,6 +907,16 @@ input:focus-visible {
           border-radius: 50%;
           object-fit: cover;
         }
+
+        @include mobile {
+          height: 35px;
+          font-weight: bold;
+
+          .userImage {
+            height: 35px;
+            width: 35px;
+          }
+        }
       }
 
       .chatIcons {
@@ -919,6 +935,10 @@ input:focus-visible {
         height: calc(100% - 160px);
         overflow-y: scroll;
 
+        @include mobile {
+          height: calc(100% - 125px);
+        }
+
         .message {
           display: flex;
           gap: 20px;
@@ -936,6 +956,19 @@ input:focus-visible {
               border-radius: 50%;
               object-fit: cover;
             }
+
+          }
+
+          @include mobile {
+            gap: 10px;
+            margin-bottom: 15px;
+
+            .messageInfo {
+              img {
+                width: 35px;
+                height: 35px;
+              }
+            }
           }
 
           .messageContent {
@@ -948,12 +981,24 @@ input:focus-visible {
               background-color: white;
               padding: 10px 20px;
               border-radius: 0px 10px 10px 10px;
-              max-width: max-content;
+              max-width: 70%;
+              word-wrap: break-word;
             }
 
             img {
               width: 50%;
             }
+
+            @include mobile {
+              p {
+                font-size: 14px;
+              }
+
+              img {
+                width: 40%;
+              }
+            }
+
           }
 
           &.owner {
@@ -980,6 +1025,11 @@ input:focus-visible {
         align-items: center;
         justify-content: space-between;
 
+        @include mobile {
+          height: 40px;
+          padding: 5px;
+        }
+
         input {
           width: 100%;
           border: none;
@@ -990,6 +1040,11 @@ input:focus-visible {
           &::placeholder {
             color: lightgray;
           }
+
+          @include mobile {
+            font-size: 16px;
+          }
+
         }
 
         .send {
@@ -1000,6 +1055,10 @@ input:focus-visible {
           img {
             height: 24px;
             cursor: pointer;
+
+            @include mobile {
+              height: 22px;
+            }
           }
 
           button {
@@ -1008,6 +1067,10 @@ input:focus-visible {
             color: white;
             background-color: #8da4f1;
             cursor: pointer;
+
+            @include mobile {
+              padding: 8px 13px;
+            }
           }
 
           .imageBox {

@@ -33,17 +33,12 @@ const Message = ({ message, chatId }) => {
 
     if (chats[chatId] && chats[chatId].unReadMsgIds && chats[chatId].unReadMsgIds.length > 0) {
       if (chats[chatId].unReadMsgIds.includes(message.id)) {
-
         const tempArr = chats[chatId].unReadMsgIds.filter(item => item !== message.id);
-
         updateDoc(doc(db, "userChats", currentUser.uid), {
           [chatId + ".unReadMsgIds"]: tempArr
         });
-
       }
     }
-
-
   }, [chats, chatId, message, currentUser]);
 
   return (

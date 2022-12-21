@@ -7,7 +7,7 @@ import usr from '../img/user.png'
 
 const Search = () => {
 
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState([]);
   const [err, setErr] = useState(false);
 
   const { currentUser } = useContext(AuthContext);
@@ -21,13 +21,17 @@ const Search = () => {
     );
 
     try {
-      setUser(null);
+      setUser([]);
       setErr(false);
       const querySnapshot = await getDocs(q);
+      const arr = [];
       querySnapshot.forEach((doc) => {
         const usr = doc.data();
-        if (currentUser.uid !== usr.uid) setUser(usr);
+        if (currentUser.uid !== usr.uid) {
+          arr.push(usr);
+        }
       });
+      setUser(arr);
     } catch (err) {
       setErr(true);
     }
@@ -85,11 +89,11 @@ const Search = () => {
         />
       </div>
       {err && <span>User not found!</span>}
-      {user && (
-        <div className="userChat search_result" onClick={() => handleSelect(user)}>
-          <img src={user.photoURL ? user.photoURL : usr} alt="" />
+      {user && user.length > 0 && user.map(item =>
+        <div className="userChat search_result" onClick={() => handleSelect(item)}>
+          <img src={item.photoURL ? item.photoURL : usr} alt="" />
           <div className="userChatInfo">
-            <span>{user?.displayName}</span>
+            <span>{item?.displayName}</span>
           </div>
         </div>
       )}
