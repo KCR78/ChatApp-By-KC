@@ -25,7 +25,8 @@ const Search = () => {
       setErr(false);
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        setUser(doc.data());
+        const usr = doc.data();
+        if (currentUser.uid !== usr.uid) setUser(usr);
       });
     } catch (err) {
       setErr(true);
