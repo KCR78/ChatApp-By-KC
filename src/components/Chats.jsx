@@ -144,28 +144,51 @@ const Chats = () => {
   return (
     <div className="chats">
 
-      <div className={`allChats ${isAdminView ? 'adminTop' : 'userTop'}`} >
-        {
-          typeof chats === 'object' && Object.entries(chats)?.sort((a, b) => b[1].date - a[1].date).map((chat) =>
-            <div
-              className={`userChat ${chat[0] === data.chatId && 'activeChat'}`}
-              key={chat[0]}
-              onClick={() => handleSelect(chat[1].userInfo)}
-            >
-              <img src={chat[1].userInfo.photoURL ? chat[1].userInfo.photoURL : usr} alt="" />
-              <div className="userChatInfo">
-                <span>{chat[1].userInfo?.displayName}</span>
-                <p>{chat[1].lastMessage && decr(chat[1].lastMessage.text, chat[0])}</p>
+      {!newChatToggle ?
+        <div className={`allChats ${isAdminView ? 'adminTop' : 'userTop'}`} >
+          {
+            typeof chats === 'object' && Object.entries(chats)?.sort((a, b) => b[1].date - a[1].date).map((chat) =>
+              <div
+                className={`userChat ${chat[0] === data.chatId && 'activeChat'}`}
+                key={chat[0]}
+                onClick={() => handleSelect(chat[1].userInfo)}
+              >
+                <img src={chat[1].userInfo.photoURL ? chat[1].userInfo.photoURL : usr} alt="" />
+                <div className="userChatInfo">
+                  <span>{chat[1].userInfo?.displayName}</span>
+                  <p>{chat[1].lastMessage && decr(chat[1].lastMessage.text, chat[0])}</p>
+                </div>
+                {chat[1].unReadMsgIds && chat[1].unReadMsgIds.length > 0 &&
+                  <span className="unReadCount">
+                    {chat[1].unReadMsgIds.length}
+                  </span>
+                }
               </div>
-              {chat[1].unReadMsgIds && chat[1].unReadMsgIds.length > 0 &&
-                <span className="unReadCount">
-                  {chat[1].unReadMsgIds.length}
-                </span>
-              }
+            )
+          }
+        </div>
+        :
+        <div className="users">
+          <div className="heading">
+            <p>All Users</p>
+            <img src={cancel} onClick={() => setNewChatToggle(false)} alt="" />
+          </div>
+
+          {newChats.length > 1 ?
+            <div className="userBox">
+              {newChats.map(item =>
+                item.uid !== currentUser.uid &&
+                <div className="user" onClick={() => selectNewChat(item)} key={item.uid}>
+                  <img src={item.photoURL ? item.photoURL : usr} alt="" />
+                  <p key={item.uid}>{item?.displayName}</p>
+                </div>
+              )}
             </div>
-          )
-        }
-      </div>
+            :
+            <p className="noUser">-- No Users Found -- </p>
+          }
+        </div>
+      }
 
       {isAdminView &&
         <div className="newChats">
@@ -180,7 +203,7 @@ const Chats = () => {
             }}
           />
 
-          {newChatToggle && <div className="users">
+          {/* {newChatToggle && <div className="users">
             <div className="heading">
               <p>All Users</p>
               <img src={cancel} onClick={() => setNewChatToggle(false)} alt="" />
@@ -200,7 +223,7 @@ const Chats = () => {
               <p className="noUser">-- No Users Found -- </p>
             }
           </div>
-          }
+          } */}
         </div>
       }
 

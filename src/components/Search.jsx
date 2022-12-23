@@ -90,7 +90,7 @@ const Search = () => {
       </div>
       {err && <span>User not found!</span>}
       {user && user.length > 0 && user.map(item =>
-        <div className="userChat search_result" onClick={() => handleSelect(item)}>
+        <div key={item.uid} className="userChat search_result" onClick={() => handleSelect(item)}>
           <img src={item.photoURL ? item.photoURL : usr} alt="" />
           <div className="userChatInfo">
             <span>{item?.displayName}</span>
