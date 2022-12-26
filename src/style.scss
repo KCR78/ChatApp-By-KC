@@ -92,9 +92,9 @@ input:focus-visible {
 
 
   .react-lock-screen__ui {
-    width: 300px;
+    max-width: 420px;
     text-align: center;
-    padding: 16px;
+    padding: 16px 0px;
     border-radius: 4px;
     display: flex;
     flex-direction: column;
@@ -123,6 +123,10 @@ input:focus-visible {
 
       input {
         font-size: 40px;
+
+        @include mobile {
+          margin-right: 4px !important;
+        }
       }
 
       input:last-child {
