@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useRef } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
-import usr from '../img/user.png'
 import { useState } from "react";
 // import CryptoJS from 'crypto-js';
 import { dataDecrypt } from "./dataEncryptDcrypt";
@@ -50,8 +49,8 @@ const Message = ({ message, chatId }) => {
         <img
           src={
             message.senderId === currentUser.uid
-              ? currentUser.photoURL ? currentUser.photoURL : usr
-              : data.user.photoURL ? data.user.photoURL : usr
+              ? currentUser.photoURL
+              : data.user.photoURL
           }
           alt=""
         />

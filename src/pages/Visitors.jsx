@@ -1,6 +1,4 @@
 import React, { useContext, useState } from "react";
-import AddUser from "../img/add.png";
-import cancel from "../img/cancel.png";
 import { db, } from "../firebase";
 import { useRef } from "react";
 import { ChatContext } from "../context/ChatContext";
@@ -130,9 +128,10 @@ const Visitors = () => {
         <>
             {!showAddUser ?
                 <div className="user-lists">
-                    <img src={cancel} alt="" className="close-regd" onClick={() => setIsRegisterUserOpen(false)} />
-                    <div className="head">Visitors</div>
-
+                    <div className="titleBar">
+                        <span className="material-icons close-regd" onClick={() => setIsRegisterUserOpen(false)}>arrow_back</span>
+                        <div className="head">Visitors</div>
+                    </div>
                     <div className="user-table">
 
                         {allUsersList.length > 0 ?
@@ -154,7 +153,7 @@ const Visitors = () => {
                                                 <span className={isEditPin === item.uuid ? "disp-hide" : ''}>{item.pin}</span>
                                                 <span className={isEditPin === item.uuid ? 'editPinBox' : 'disp-hide'}>
                                                     <input type="text" value={editPinCodeValue} onChange={(e) => setEditPinCodeValue(e.target.value)} maxLength='6' placeholder="6 Digit PIN" />
-                                                    <img src={cancel} alt='cancel' onClick={() => { setIsEditPin(''); setPinErr(); }} />
+                                                    <span className="material-icons cancel" onClick={() => { setIsEditPin(''); setPinErr(); }}>cancel</span>
                                                 </span>
                                                 {isEditPin === item.uuid && pinErr && <span className="text-red">{pinErr}</span>}
                                             </td>
@@ -172,21 +171,19 @@ const Visitors = () => {
                     </div>
 
                     <div className="add-btn" onClick={() => { setShowAddUser(true); setErr(false); setLoading(false); }}>
-                        <img src={AddUser} alt="" className="add-user" />
+                        <span className="material-icons add-user">person_add</span>
                     </div>
                 </div>
                 :
                 <div className="visitors-formContainer">
-                    <img src={cancel} alt="" className="close-regd" onClick={() => { setShowAddUser(false); setErr(false); }} />
                     <div className="formWrapper">
                         <span className="logo">Add Visitors</span>
                         <form>
                             <input required type="email" ref={emailRef} placeholder="Visitor's Email" />
                             <input required type="text" ref={pinRef} maxLength='6' placeholder="Visitor's digit PIN" />
 
-                            <button
-                                disabled={loading}
-                                onClick={handleSubmit}>Add</button>
+                            <button disabled={loading} onClick={handleSubmit}>Add</button>
+                            <button onClick={() => { setShowAddUser(false); setErr(false); }}>Cancel</button>
                             {err ?
                                 (typeof err === 'string')
                                     ? <span className="text-red" >{err}</span>

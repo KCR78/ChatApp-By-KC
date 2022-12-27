@@ -1,7 +1,4 @@
 import React, { useContext, useState } from "react";
-import Img from "../img/img.png";
-// import Attach from "../img/attach.png";
-import Cancel from "../img/cancel.png";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
 import {
@@ -71,16 +68,22 @@ const Input = () => {
   };
 
   const handleSend = async () => {
+    const textContent = text;
+    const imgData = img;
+
+    setImg(null);
+    setImgToggle(false);
+    setText("");
 
     // const result = await getDoc(doc(db, "fcmTokens", data.user.uid));
     // This registration token comes from the client FCM SDKs.
     // const regdToken = result.data() ? result.data().token_id : null;
     const ids = uuid();
 
-    if (img) {
+    if (imgData) {
       const storageRef = ref(storage, uuid());
 
-      const uploadTask = uploadBytesResumable(storageRef, img);
+      const uploadTask = uploadBytesResumable(storageRef, imgData);
       uploadTask.on(
         (error) => {
           //TODO:Handle Error
@@ -93,7 +96,7 @@ const Input = () => {
             await updateDoc(doc(db, "chats", data.chatId), {
               messages: arrayUnion({
                 id: ids,
-                text: dataEncrypt(text, data.chatId),
+                text: dataEncrypt(textContent, data.chatId),
                 senderId: currentUser.uid,
                 date: Timestamp.now(),
                 img: downloadURL,
@@ -101,44 +104,41 @@ const Input = () => {
             });
 
             // pushNotification(regdToken);
-            updtDocs(text !== '' ? text.substring(0, 20) : 'Image', ids);
+            updtDocs(textContent !== '' ? textContent.substring(0, 20) : 'Image', ids);
           });
         }
       );
     } else {
-      if (text.trim() !== '') {
+      if (textContent.trim() !== '') {
 
         await updateDoc(doc(db, "chats", data.chatId), {
           messages: arrayUnion({
             id: ids,
-            text: dataEncrypt(text, data.chatId),
+            text: dataEncrypt(textContent, data.chatId),
             senderId: currentUser.uid,
             date: Timestamp.now(),
           }),
         });
 
         // pushNotification(regdToken);
-        updtDocs(text !== '' ? text.substring(0, 20) : 'Image', ids);
+        updtDocs(textContent !== '' ? textContent.substring(0, 20) : 'Image', ids);
       }
     };
-
-    setText("");
-    setImg(null);
-    setImgToggle(false);
   };
 
   return (
     <div className="input">
-      <input
-        type="text"
-        placeholder="Type something..."
-        onKeyPress={(e) => e.key === "Enter" && handleSend()}
-        onChange={(e) => setText(e.target.value)}
-        value={text}
-      />
-      <div className="send">
-        {/* <img src={Attach} alt="" /> */}
+      <div className="inputField">
         <input
+          className="textInput"
+          type="text"
+          placeholder="Type something..."
+          onKeyPress={(e) => e.key === "Enter" && handleSend()}
+          onChange={(e) => setText(e.target.value)}
+          value={text}
+        />
+        <input
+          className="fileInput"
           type="file"
           style={{ display: "none" }}
           id="file"
@@ -147,14 +147,19 @@ const Input = () => {
         {imgToggle ?
           <div className="imageBox" onClick={() => { setImg(null); setImgToggle(false); }}>
             <label>1Img</label>
-            <img src={Cancel} alt="" />
+            <span className="material-icons cancelImg">cancel</span>
           </div>
           :
           <label htmlFor="file">
-            <img src={Img} alt="" />
+            <span className="material-icons addImg">add_photo_alternate</span>
           </label>
         }
-        <button onClick={handleSend}>Send</button>
+      </div>
+      <div className="send">
+        {/* <img src={Attach} alt="" /> */}
+        <button onClick={handleSend}>
+          <span className="material-icons send">send</span>
+        </button>
       </div>
     </div>
   );

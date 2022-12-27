@@ -3,10 +3,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
 import { db } from "../firebase";
-import add from "../img/add.png";
-import usr from "../img/user.png";
-import addChats from "../img/add-chats.png";
-import cancel from "../img/cancel.png";
 // import CryptoJS from 'crypto-js';
 import { dataDecrypt } from "./dataEncryptDcrypt";
 
@@ -153,9 +149,9 @@ const Chats = () => {
                 key={chat[0]}
                 onClick={() => handleSelect(chat[1].userInfo)}
               >
-                <img src={chat[1].userInfo.photoURL ? chat[1].userInfo.photoURL : usr} alt="" />
+                <img src={chat[1].userInfo?.photoURL} alt="" />
                 <div className="userChatInfo">
-                  <span>{chat[1].userInfo?.displayName}</span>
+                  <div>{chat[1].userInfo?.displayName}</div>
                   <p>{chat[1].lastMessage && decr(chat[1].lastMessage.text, chat[0])}</p>
                 </div>
                 {chat[1].unReadMsgIds && chat[1].unReadMsgIds.length > 0 &&
@@ -171,7 +167,7 @@ const Chats = () => {
         <div className="users">
           <div className="heading">
             <p>All Users</p>
-            <img src={cancel} onClick={() => setNewChatToggle(false)} alt="" />
+            <span className="material-icons close" onClick={() => setNewChatToggle(false)}>close</span>
           </div>
 
           {newChats.length > 1 ?
@@ -179,7 +175,7 @@ const Chats = () => {
               {newChats.map(item =>
                 item.uid !== currentUser.uid &&
                 <div className="user" onClick={() => selectNewChat(item)} key={item.uid}>
-                  <img src={item.photoURL ? item.photoURL : usr} alt="" />
+                  <img src={item.photoURL} alt="" />
                   <p key={item.uid}>{item?.displayName}</p>
                 </div>
               )}
@@ -192,38 +188,15 @@ const Chats = () => {
 
       {isAdminView &&
         <div className="newChats">
-
-          <img src={addChats} onClick={() => setNewChatToggle(true)} className='add-chats' alt="" title="Add New Charts" />
-          <img
-            src={add}
-            className='add-users' alt="" title="Add New Visitor"
+          <span className="material-icons add-chats" title="Add New Charts" onClick={() => setNewChatToggle(true)}>chat</span>
+          <span className="material-icons add-users" title="Add New Visitors"
             onClick={() => {
               setIsRegisterUserOpen(true);
               dispatch({ type: "REMOVE_USER", payload: null });
             }}
-          />
-
-          {/* {newChatToggle && <div className="users">
-            <div className="heading">
-              <p>All Users</p>
-              <img src={cancel} onClick={() => setNewChatToggle(false)} alt="" />
-            </div>
-
-            {newChats.length > 1 ?
-              <div className="userBox">
-                {newChats.map(item =>
-                  item.uid !== currentUser.uid &&
-                  <div className="user" onClick={() => selectNewChat(item)} key={item.uid}>
-                    <img src={item.photoURL ? item.photoURL : usr} alt="" />
-                    <p key={item.uid}>{item?.displayName}</p>
-                  </div>
-                )}
-              </div>
-              :
-              <p className="noUser">-- No Users Found -- </p>
-            }
-          </div>
-          } */}
+          >
+            person_add
+          </span>
         </div>
       }
 

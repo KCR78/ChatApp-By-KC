@@ -121,16 +121,26 @@ input:focus-visible {
 
     .pinput {
 
-      input {
-        font-size: 40px;
+      div {
+        input {
+          font-size: 40px;
+          margin-right: 20px !important;
+          width: 32px !important;
+          height: 32px !important;
 
-        @include mobile {
-          margin-right: 4px !important;
+          @include mobile {
+            font-size: 18px !important;
+            margin-right: 4px !important;
+            width: 28px !important;
+            height: 28px !important;
+          }
         }
       }
 
-      input:last-child {
-        margin-right: 0px !important;
+      div:last-child {
+        input {
+          margin-right: 0px !important;
+        }
       }
     }
   }
@@ -143,18 +153,33 @@ input:focus-visible {
   display: flex;
   flex-direction: column;
 
-  .close-regd {
-    cursor: pointer;
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 8px;
-    width: 25px;
+
+  .titleBar {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #4F4D7F;
+    margin-bottom: 10px;
+    padding: 10px;
+
+    .head {
+      color: #5d5b8d;
+      font-weight: bold;
+      font-size: 24px;
+      margin-left: 6px;
+    }
+
+    .close-regd {
+      cursor: pointer;
+      padding: 6px;
+      font-weight: 600;
+      color: #5d5b8d;
+    }
   }
 
   .add-btn {
     display: flex;
     justify-content: center;
+    align-items: center;
     position: absolute;
     bottom: 20px;
     right: 20px;
@@ -163,47 +188,40 @@ input:focus-visible {
     border: 1px solid #DADAF5;
     cursor: pointer;
 
+    span {
+      padding: 2px;
+      font-size: 32px;
+      color: #DADAF5;
+    }
+
     &:hover {
       background-color: #4F4D7F;
     }
   }
 
-  .head {
-    padding: 10px;
-    border-bottom: 1px solid #4F4D7F;
-    margin-bottom: 10px;
-    color: #5d5b8d;
-    font-weight: bold;
-    font-size: 24px;
-  }
-
-  table {
-    border-collapse: collapse;
-    width: 95%;
-    height: 50px;
-    align-items: center;
-    justify-content: center;
-
-
-    td,
-    th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-    }
-  }
-
   .user-table {
     overflow: auto;
-    height: 75%;
-    display: flex;
-    justify-content: center;
+    height: calc(100% - 160px);
+    // display: flex;
+    // justify-content: center;
+    padding: 10px;
 
     .noVisitor {
       margin: 20px 0;
+      text-align: center;
     }
 
     table {
+      border-collapse: collapse;
+      width: 100%;
+      height: 50px;
+
+      td,
+      th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
 
       thead {
 
@@ -243,7 +261,7 @@ input:focus-visible {
               width: 100%;
             }
 
-            img {
+            .cancel {
               width: 22px;
               position: absolute;
               right: 2px;
@@ -593,43 +611,63 @@ input:focus-visible {
         display: flex;
         flex-direction: column;
         background-color: #2f2d52;
-        height: 65px;
+        height: 42px;
         padding: 10px;
-        justify-content: space-between;
+        justify-content: center;
         color: #ddddf7;
 
         .brand {
-          font-size: 24px;
+          font-size: 18px;
           display: flex;
           justify-content: space-between;
-          margin-bottom: 5px;
+          align-items: center;
 
           @include tablet {
-            font-size: 18px;
             margin-bottom: 2px;
           }
-
 
           @include mobile {
             font-size: 20px;
             margin-bottom: 2px;
           }
 
-          .logo {
-            font-weight: bold;
-          }
+          .dropdown {
+            position: relative;
+            display: inline-block;
 
-          button {
-            background-color: #5d5b8d;
-            color: #ddddf7;
-            font-size: 10px;
-            border: none;
-            cursor: pointer;
+            .dots {
+              font-size: 32px;
+              cursor: pointer;
+              width: 20px;
+            }
 
-            @include tablet {
+            .dropdown-content {
+              display: none;
               position: absolute;
-              right: 10px;
-              padding: 5px;
+              right: 4px;
+              top: 30px;
+              background-color: #f1f1f1;
+              min-width: 100px;
+              overflow: auto;
+              box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+              z-index: 1;
+
+              div {
+                color: black;
+                font-size: 14px;
+                padding: 10px;
+                text-decoration: none;
+                display: block;
+                cursor: pointer;
+
+                &:hover {
+                  background-color: #ddd;
+                }
+              }
+            }
+
+            .show {
+              display: block;
             }
           }
         }
@@ -637,7 +675,13 @@ input:focus-visible {
         .user {
           display: flex;
           align-items: center;
+          justify-content: space-between;
           gap: 10px;
+
+          div {
+            max-height: 48px;
+            overflow: hidden;
+          }
 
           @include mobile {
             font-size: 18px;
@@ -645,8 +689,8 @@ input:focus-visible {
 
           img {
             background-color: #ddddf7;
-            height: 24px;
-            width: 24px;
+            height: 32px;
+            width: 32px;
             border-radius: 50%;
             object-fit: cover;
 
@@ -696,12 +740,12 @@ input:focus-visible {
       }
 
       .userTop {
-        top: 85px;
+        top: 62px;
         border-top: 1px solid grey;
       }
 
       .adminTop {
-        top: 128px;
+        top: 105px;
       }
 
       .activeChat {
@@ -716,6 +760,7 @@ input:focus-visible {
         color: white;
         cursor: pointer;
         position: relative;
+        overflow: hidden;
 
         .unReadCount {
           position: absolute;
@@ -745,9 +790,11 @@ input:focus-visible {
         }
 
         .userChatInfo {
-          span {
+          div {
             font-size: 18px;
             font-weight: 500;
+            max-height: 50px;
+            overflow: hidden;
           }
 
           p {
@@ -766,38 +813,29 @@ input:focus-visible {
         padding: 0;
       }
 
-      .add-chats {
+      .add-chats,
+      .add-users {
         border: 2px solid #DDDDF7;
+        color: #DDDDF7;
         border-radius: 50%;
-        padding: 5px 5px 4px 5px;
-        width: 20px;
+        padding: 4px 5px 4px 4px;
+        font-size: 22px;
         margin: 0;
         position: absolute;
-        bottom: 5px;
-        left: 5px;
+        bottom: 10px;
+        left: 10px;
+        right: auto;
         cursor: pointer;
         background-color: #4f4d7f;
 
         &:hover {
-          background-color: #4f4d7f;
+          background-color: #4f4d9e;
         }
       }
 
       .add-users {
-        border: 2px solid #DDDDF7;
-        border-radius: 50%;
-        padding: 4px 4px 4px 5px;
-        width: 20px;
-        margin: 0;
-        position: absolute;
-        bottom: 5px;
-        right: 5px;
-        cursor: pointer;
-        background-color: #4f4d7f;
-
-        &:hover {
-          background-color: #4f4d7f;
-        }
+        left: auto;
+        right: 10px;
       }
 
       .users {
@@ -831,10 +869,11 @@ input:focus-visible {
           border-bottom: 1px solid darkgrey;
           background-color: #2f2d52;
 
-          img {
+          .close {
             position: absolute;
             right: 5px;
-            width: 20px;
+            font-size: 20px;
+            font-weight: 600;
             cursor: pointer;
           }
         }
@@ -904,6 +943,19 @@ input:focus-visible {
         justify-content: space-between;
         padding: 10px;
         color: lightgray;
+
+        .chatBack {
+          margin-right: 5px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+
+          span {
+            padding: 5px 5px 5px 2px;
+            font-weight: 600;
+          }
+        }
 
         span {
           display: flex;
@@ -1030,7 +1082,7 @@ input:focus-visible {
 
       .input {
         height: 50px;
-        background-color: white;
+        background-color: #ddddf7;
         padding: 10px;
         display: flex;
         align-items: center;
@@ -1041,21 +1093,62 @@ input:focus-visible {
           padding: 5px;
         }
 
-        input {
+        .inputField {
+          display: flex;
           width: 100%;
-          border: none;
-          outline: none;
-          color: #2f2d52;
-          font-size: 18px;
+          background-color: white;
+          border-radius: 50px;
+          padding: 6px 15px;
+          margin-right: 5px;
 
-          &::placeholder {
-            color: lightgray;
+          .addImg {
+            font-size: 24px;
+            color: #D3D3D3;
+            cursor: pointer;
+
+            @include mobile {
+              font-size: 22px;
+            }
           }
 
-          @include mobile {
+          .imageBox {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+
+            label {
+              font-size: 12px;
+              margin-right: 2px;
+              font-weight: 600;
+              color: darkgrey;
+            }
+
+            .cancelImg {
+              font-size: 20px;
+              color: darkgrey;
+            }
+
+            &:hover {
+
+              label,
+              .cancelImg {
+                color: black;
+              }
+            }
+          }
+
+          .textInput {
+            background: transparent;
+            width: 100%;
+            border: none;
+            outline: none;
+            color: #2f2d52;
             font-size: 16px;
-          }
 
+            &::placeholder {
+              color: lightgray;
+            }
+          }
         }
 
         .send {
@@ -1073,40 +1166,18 @@ input:focus-visible {
           }
 
           button {
+            display: flex;
             border: none;
-            padding: 10px 15px;
+            padding: 11px 8px 11px 12px;
+            border-radius: 50%;
             color: white;
             background-color: #8da4f1;
             cursor: pointer;
 
             @include mobile {
-              padding: 8px 13px;
+              padding: 9px 6px 9px 10px;
             }
           }
-
-          .imageBox {
-            display: flex;
-            align-items: center;
-
-            label {
-              cursor: pointer;
-              font-size: 12px;
-              margin-right: 2px;
-              font-weight: 600;
-            }
-
-            img {
-              width: 20px;
-              height: 20px;
-            }
-          }
-
-          .imageBox:hover {
-            img {
-              background-color: darkgrey;
-            }
-          }
-
         }
       }
     }

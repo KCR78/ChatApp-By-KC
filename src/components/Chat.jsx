@@ -1,9 +1,4 @@
 import React, { useContext } from "react";
-import Cancel from "../img/cancel.png";
-import usr from "../img/user.png";
-// import Cam from "../img/cam.png";
-// import Add from "../img/add.png";
-// import More from "../img/more.png";
 import Messages from "./Messages";
 import Input from "./Input";
 import { ChatContext } from "../context/ChatContext";
@@ -28,14 +23,14 @@ const Chat = () => {
         <>
           <div className="chatInfo">
             <span>
-              <img src={data.user.photoURL ? data.user.photoURL : usr} alt="" className="userImage" />
+              <div className='chatBack'><span className="material-icons" onClick={handleRemove}>arrow_back</span></div>
+              <img src={data.user.photoURL} alt="" className="userImage" />
               {data.user?.displayName}
             </span>
             <div className="chatIcons">
               {/* <img src={Cam} alt="" /> */}
               {/* <img src={Add} alt="" /> */}
               {/* <img src={More} alt="" /> */}
-              <img src={Cancel} alt="" onClick={handleRemove} />
             </div>
           </div>
           <Messages />

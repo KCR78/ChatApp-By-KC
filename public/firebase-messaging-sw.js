@@ -7,13 +7,13 @@ importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compa
 
 // Initialize the Firebase app in the service worker by passing the generated config
 var firebaseConfig = {
-    apiKey: "AIzaSyCo_mAoSpnhpDKCf-sN8TAy54Bem9lg93E",
-    authDomain: "chatapp-by-kcr.firebaseapp.com",
-    projectId: "chatapp-by-kcr",
-    storageBucket: "chatapp-by-kcr.appspot.com",
-    messagingSenderId: "618273233205",
-    appId: "1:618273233205:web:482566996fa9a19eb3d47c",
-    measurementId: "G-KYH4G90Z8G"
+    apiKey: "AIzaSyCiNZRBzZn-cDRQ7ecBuAoNPlU1GRzyKE0",
+    authDomain: "demochat-d8037.firebaseapp.com",
+    projectId: "demochat-d8037",
+    storageBucket: "demochat-d8037.appspot.com",
+    messagingSenderId: "981484670979",
+    appId: "1:981484670979:web:67acb3cfcc913a31e17e36",
+    measurementId: "G-CMLLT6LM7N",
 };
 
 firebase.initializeApp(firebaseConfig);
