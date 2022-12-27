@@ -5,6 +5,7 @@ import { ChatContext } from "../context/ChatContext";
 import { useEffect } from "react";
 import { collection, deleteDoc, doc, onSnapshot, query, setDoc, updateDoc, } from "firebase/firestore";
 import { v4 as uuidv4 } from 'uuid';
+import { blockInvalidNums } from "../components/BlockInvalidNums";
 
 const Visitors = () => {
 
@@ -20,7 +21,7 @@ const Visitors = () => {
     const emailRef = useRef();
     const pinRef = useRef();
 
-    const [editPinCodeValue, setEditPinCodeValue] = useState('');
+    const [editPinCodeValue, setEditPinCodeValue] = useState();
 
     useEffect(() => {
         const getAllUsers = async () => {
@@ -48,8 +49,7 @@ const Visitors = () => {
         setIsEditPin(data.uuid);
 
         if (type === 'Save') {
-
-            if (editPinCodeValue === '' || editPinCodeValue.length < 6) { console.log('Invalid PIN.'); setPinErr('Invalid PIN'); }
+            if (editPinCodeValue === '' || editPinCodeValue.length < 6 || isNaN(editPinCodeValue)) { console.log('Invalid PIN.'); setPinErr('Invalid PIN'); }
             else {
                 try {
                     console.log('Saving Pincode.');
@@ -88,6 +88,7 @@ const Visitors = () => {
         const regx = /^(([^<>()[\]\\.,;:\s@\\"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(\\".+\\"))@(([^<>()[\]\\.,;:\s@\\"]+\.)+[^<>()[\]\\.,;:\s@\\"]{2,})$/i
 
         if (emailRef.current.value.trim() === '' || pinRef.current.value.trim() === '') setErr('Please add all values.');
+        else if (isNaN(pinRef.current.value)) setErr('Invalid PIN.');
         else {
             if (!regx.test(emailRef.current.value.trim())) setErr('Please enter valid email.');
             else {
@@ -152,14 +153,23 @@ const Visitors = () => {
                                             <td className="td-pin">
                                                 <span className={isEditPin === item.uuid ? "disp-hide" : ''}>{item.pin}</span>
                                                 <span className={isEditPin === item.uuid ? 'editPinBox' : 'disp-hide'}>
-                                                    <input type="text" value={editPinCodeValue} onChange={(e) => setEditPinCodeValue(e.target.value)} maxLength='6' placeholder="6 Digit PIN" />
+                                                    <input
+                                                        type="text"
+                                                        value={editPinCodeValue}
+                                                        onChange={(e) => setEditPinCodeValue(e.target.value)}
+                                                        onKeyPress={blockInvalidNums}
+                                                        maxLength='6'
+                                                        placeholder="6 Digit PIN"
+                                                    />
                                                     <span className="material-icons cancel" onClick={() => { setIsEditPin(''); setPinErr(); }}>cancel</span>
                                                 </span>
                                                 {isEditPin === item.uuid && pinErr && <span className="text-red">{pinErr}</span>}
                                             </td>
-                                            <td className="act-btn">
-                                                <button onClick={() => editVisitor(item, isEditPin === item.uuid ? "Save" : "Edit")}>{isEditPin === item.uuid ? "Save" : "Edit"}</button>
-                                                <button onClick={() => deleteVisitor(item)}>Delete</button>
+                                            <td className="act-btns">
+                                                <span className="actBtns" onClick={() => editVisitor(item, isEditPin === item.uuid ? "Save" : "Edit")}>
+                                                    {isEditPin === item.uuid ? <span className="material-icons text-green">save</span> : <span className="material-icons text-blue">edit</span>}
+                                                </span>
+                                                <span className="actBtns" onClick={() => deleteVisitor(item)}><span className="material-icons text-red">delete</span></span>
                                             </td>
                                         </tr>
                                     )}
@@ -180,7 +190,14 @@ const Visitors = () => {
                         <span className="logo">Add Visitors</span>
                         <form>
                             <input required type="email" ref={emailRef} placeholder="Visitor's Email" />
-                            <input required type="text" ref={pinRef} maxLength='6' placeholder="Visitor's digit PIN" />
+                            <input
+                                required
+                                type="text"
+                                ref={pinRef}
+                                maxLength='6'
+                                placeholder="Visitor's digit PIN"
+                                onKeyPress={blockInvalidNums}
+                            />
 
                             <button disabled={loading} onClick={handleSubmit}>Add</button>
                             <button onClick={() => { setShowAddUser(false); setErr(false); }}>Cancel</button>
