@@ -166,8 +166,8 @@ const Chats = () => {
         :
         <div className="users">
           <div className="heading">
+            <span className="material-icons close" onClick={() => setNewChatToggle(false)}>arrow_back</span>
             <p>All Users</p>
-            <span className="material-icons close" onClick={() => setNewChatToggle(false)}>close</span>
           </div>
 
           {newChats.length > 1 ?
