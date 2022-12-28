@@ -83,6 +83,8 @@ const Home = () => {
             value={passKey}
             onChange={(data) => setPassKey(data)}
             isInputSecure
+            isInputNum
+            shouldAutoFocus={true}
             numInputs={6}
           />
           <button onClick={unlockScreen}>unlock</button>
