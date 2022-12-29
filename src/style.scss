@@ -945,6 +945,7 @@ input:focus-visible {
 
     .chat {
       width: 70%;
+      position: relative;
 
       @include mobile {
         width: 0%;
@@ -1038,6 +1039,33 @@ input:focus-visible {
         @include mobile {
           height: calc(100% - 125px);
         }
+
+        .scrollToBottom {
+          font-size: 22px;
+          position: absolute;
+          right: 20px;
+          top: calc(100% - 100px);
+          color: white;
+          background-color: #9f9f9f;
+          border-radius: 50%;
+          padding: 4px 2px 2px;
+          cursor: pointer;
+
+          &:hover {
+            background-color: grey;
+          }
+
+          @include tabletLandscape {
+            top: calc(100% - 95px);
+          }
+
+          @include mobile {
+            font-size: 20px;
+            top: calc(100% - 80px);
+            padding: 2px;
+          }
+        }
+
 
         .message {
           display: flex;

@@ -10,14 +10,16 @@ import { db } from "../firebase";
 const Message = ({ message, chatId }) => {
 
   const { currentUser } = useContext(AuthContext);
-  const { data, chats } = useContext(ChatContext);
+  const { data, chats, isScrollToBottom } = useContext(ChatContext);
 
   const [msg, setMsg] = useState('');
   const ref = useRef();
 
   useEffect(() => {
-    ref.current?.scrollIntoView({ behavior: "smooth" });
-  }, []);
+    if (isScrollToBottom) {
+      ref.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [isScrollToBottom]);
 
   useEffect(() => {
     // var bytes = CryptoJS.AES.decrypt(message.text, chatId);

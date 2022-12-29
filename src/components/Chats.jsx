@@ -18,6 +18,7 @@ const Chats = () => {
     setMessages,
     unReadMsgCount, setUnReadMsgCount,
     unReadMsgUserIds, setUnReadMsgUserIds,
+    setIsScrollToBottom
   } = useContext(ChatContext);
 
 
@@ -89,6 +90,7 @@ const Chats = () => {
       setMessages([]);
       setIsRegisterUserOpen(false);
       dispatch({ type: "CHANGE_USER", payload: u });
+      setIsScrollToBottom(true);
     };
   };
 

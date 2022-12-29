@@ -13,6 +13,7 @@ export const ChatContextProvider = ({ children }) => {
   const [newChats, setNewChats] = useState([]);
   const [chats, setChats] = useState([]);
   const [messages, setMessages] = useState([]);
+  const [isScrollToBottom, setIsScrollToBottom] = useState(false);
 
   const [isRegisterUserOpen, setIsRegisterUserOpen] = useState(false);
 
@@ -65,6 +66,7 @@ export const ChatContextProvider = ({ children }) => {
       unReadMsgCount, setUnReadMsgCount,
       unReadMsgUserIds, setUnReadMsgUserIds,
       unReadCount, setUnReadCount,
+      isScrollToBottom, setIsScrollToBottom
     }}>
       {children}
     </ChatContext.Provider>
