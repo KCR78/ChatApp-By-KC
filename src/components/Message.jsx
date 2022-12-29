@@ -17,7 +17,7 @@ const Message = ({ message, chatId }) => {
 
   useEffect(() => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
-  }, [message]);
+  }, []);
 
   useEffect(() => {
     // var bytes = CryptoJS.AES.decrypt(message.text, chatId);
