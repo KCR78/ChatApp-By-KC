@@ -4,7 +4,7 @@ import { ChatContext } from "../context/ChatContext";
 import {
   arrayUnion,
   doc,
-  // getDoc,
+  getDoc,
   serverTimestamp,
   Timestamp,
   updateDoc,
@@ -25,30 +25,30 @@ const Input = () => {
   const { data } = useContext(ChatContext);
 
 
-  // const pushNotification = (token) => {
+  const pushNotification = (token) => {
 
-  //   if (token) {
-  //     let body = {
-  //       to: token,
-  //       notification: {
-  //         title: `You have one message.`,
-  //         click_action: 'https://fcm.googleapis.com/fcm/send'
-  //       }
-  //     };
+    if (token) {
+      let body = {
+        to: token,
+        notification: {
+          title: `You have one message.`,
+          click_action: 'https://fcm.googleapis.com/fcm/send'
+        }
+      };
 
-  //     let options = {
-  //       method: 'POST',
-  //       headers: new Headers({
-  //         Authorization: 'key=AAAARNFqDq0:APA91bGELvxn2jUWXM6-S73Qss519Hx_OYKJ_GriuPUWyLQS1IfWR1eErkVmt9p5LN1dK_BPsMvS1551qaEajSgQGjzjSDd8CS5sgtk-CY25-hvAjVbcIF_POLsyd0GQSlXq-WYUn-fc',
-  //         'Content-Type': 'application/json',
-  //       }),
-  //       body: JSON.stringify(body)
-  //     }
+      let options = {
+        method: 'POST',
+        headers: new Headers({
+          Authorization: `key=${process.env.REACT_APP_SERVER_KEY}`,
+          'Content-Type': 'application/json',
+        }),
+        body: JSON.stringify(body)
+      }
 
-  //     fetch('https://fcm.googleapis.com/fcm/send', options).then().catch(e => console.log(e));
+      fetch('https://fcm.googleapis.com/fcm/send', options).then(e => console.log(e)).catch(e => console.log(e));
 
-  //   } else console.log('Token not found. Push notification cannot be send.');
-  // };
+    } else console.log('Token not found. Push notification cannot be send.');
+  };
 
   const updtDocs = async (textContent, ids) => {
     await updateDoc(doc(db, "userChats", currentUser.uid), {
@@ -75,9 +75,9 @@ const Input = () => {
     setImgToggle(false);
     setText("");
 
-    // const result = await getDoc(doc(db, "fcmTokens", data.user.uid));
+    const result = await getDoc(doc(db, "fcmTokens", data.user.uid));
     // This registration token comes from the client FCM SDKs.
-    // const regdToken = result.data() ? result.data().token_id : null;
+    const regdToken = result.data() ? result.data().token_id : null;
     const ids = uuid();
 
     if (imgData) {
@@ -103,7 +103,7 @@ const Input = () => {
               }),
             });
 
-            // pushNotification(regdToken);
+            pushNotification(regdToken);
             updtDocs(textContent !== '' ? textContent.substring(0, 20) : 'Image', ids);
           });
         }
@@ -120,7 +120,7 @@ const Input = () => {
           }),
         });
 
-        // pushNotification(regdToken);
+        pushNotification(regdToken);
         updtDocs(textContent !== '' ? textContent.substring(0, 20) : 'Image', ids);
       }
     };

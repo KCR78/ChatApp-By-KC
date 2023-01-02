@@ -7,13 +7,13 @@ importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compa
 
 // Initialize the Firebase app in the service worker by passing the generated config
 var firebaseConfig = {
-    apiKey: "AIzaSyCfuIrYAjEUFCFbd3xsuOwlw0DtG05sFoE",
-    authDomain: "chat-project-apps.firebaseapp.com",
-    projectId: "chat-project-apps",
-    storageBucket: "chat-project-apps.appspot.com",
-    messagingSenderId: "787604356818",
-    appId: "1:787604356818:web:4aadf0bd2b124d7eca770b",
-    measurementId: "G-HEX3KVFL2L",
+    apiKey: "AIzaSyCk4ZmaU9-bGmP2x78QPh7mZpDCMdSnSjo",
+    authDomain: "chatapp-demo22.firebaseapp.com",
+    projectId: "chatapp-demo22",
+    storageBucket: "chatapp-demo22.appspot.com",
+    messagingSenderId: "140210512745",
+    appId: "1:140210512745:web:a8b4c8b7e9c9cff95013f8",
+    measurementId: "G-XQXHVKVJN3",
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -22,7 +22,7 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage(function (payload) {
-    // console.log('Received background message ', payload);
+    console.log('Received background message ', payload);
 
     const notificationTitle = payload.notification.title;
     const notificationOptions = {

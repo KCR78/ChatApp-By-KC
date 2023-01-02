@@ -10,15 +10,16 @@ import locked from '../img/locked.jpg';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase';
 import { AuthContext } from '../context/AuthContext';
-import { useCallback } from 'react';
+// import { useCallback } from 'react';
 import { blockInvalidNums } from '../components/BlockInvalidNums';
 
 const Home = () => {
 
-  const { data, isRegisterUserOpen,
-    unReadMsgCount, setUnReadMsgCount,
-    unReadMsgUserIds, setUnReadMsgUserIds,
-    unReadCount, setUnReadCount,
+  const { isRegisterUserOpen,
+    // data, 
+    // unReadMsgCount, setUnReadMsgCount,
+    // unReadMsgUserIds, setUnReadMsgUserIds,
+    // unReadCount, setUnReadCount,
   } = useContext(ChatContext);
   const { currentUser, isAdminView } = useContext(AuthContext);
 
@@ -96,60 +97,60 @@ const Home = () => {
     );
   };
 
-  const showPushNotification = useCallback(() => {
+  // const showPushNotification = useCallback(() => {
 
-    navigator.serviceWorker.register('firebase-messaging-sw.js');
+  //   navigator.serviceWorker.register('firebase-messaging-sw.js');
 
-    if (!("Notification" in window)) {
-      // Check if the browser supports notifications
-      alert("This browser does not support desktop notification");
-    } else if (Notification.permission === "granted") {
-      // Check whether notification permissions have already been granted;
-      // if so, create a notification
-      // const notification = new Notification("You have one message!");
-      // notification.onclick = function () {
-      //   window.parent.focus();
-      //   notification.close();
-      // };
+  //   if (!("Notification" in window)) {
+  //     // Check if the browser supports notifications
+  //     alert("This browser does not support desktop notification");
+  //   } else if (Notification.permission === "granted") {
+  //     // Check whether notification permissions have already been granted;
+  //     // if so, create a notification
+  //     // const notification = new Notification("You have one message!");
+  //     // notification.onclick = function () {
+  //     //   window.parent.focus();
+  //     //   notification.close();
+  //     // };
 
-      navigator.serviceWorker.ready.then(function (registration) {
-        registration.showNotification("You have one new message!", {
-          icon: '/chatapp.png',
-          vibrate: [300, 100, 400, 100, 300, 100, 400]
-        });
-        // const notification = registration.showNotification('You have one message!');
-        // notification.onclick = function () {
-        //   window.parent.focus();
-        //   notification.close();
-        // };
-      });
-
-
-    } else if (Notification.permission !== "denied") {
-      // We need to ask the user for permission
-      Notification.requestPermission().then((permission) => {
-        // If the user accepts, let's create a notification
-        if (permission === "granted") showPushNotification();
-      });
-    };
-  }, []);
+  //     navigator.serviceWorker.ready.then(function (registration) {
+  //       registration.showNotification("You have one new message!", {
+  //         icon: '/chatapp.png',
+  //         vibrate: [300, 100, 400, 100, 300, 100, 400]
+  //       });
+  //       // const notification = registration.showNotification('You have one message!');
+  //       // notification.onclick = function () {
+  //       //   window.parent.focus();
+  //       //   notification.close();
+  //       // };
+  //     });
 
 
-  useEffect(() => {
-    if (unReadMsgCount > unReadCount) {
-      console.log("**** NOTIFICATION ****");
+  //   } else if (Notification.permission !== "denied") {
+  //     // We need to ask the user for permission
+  //     Notification.requestPermission().then((permission) => {
+  //       // If the user accepts, let's create a notification
+  //       if (permission === "granted") showPushNotification();
+  //     });
+  //   };
+  // }, []);
 
-      if (isLockedScreen) { console.log('Locked'); showPushNotification(); }
 
-      else if (!isLockedScreen && data.chatId === 'null') { console.log('UnLocked And Null User'); showPushNotification(); }
-      else if (!isLockedScreen && data.chatId !== 'null' && unReadMsgUserIds.filter(item => item !== data.chatId).length > 0) {
-        console.log('UnLocked and Active USER');
-        showPushNotification();
-      }
+  // useEffect(() => {
+  //   if (unReadMsgCount > unReadCount) {
+  //     console.log("**** NOTIFICATION ****");
 
-    };
-    setUnReadCount(unReadMsgCount);
-  }, [data, isLockedScreen, unReadMsgCount, unReadCount, unReadMsgUserIds, setUnReadCount, setUnReadMsgCount, setUnReadMsgUserIds, showPushNotification]);
+  //     if (isLockedScreen) { console.log('Locked'); showPushNotification(); }
+
+  //     else if (!isLockedScreen && data.chatId === 'null') { console.log('UnLocked And Null User'); showPushNotification(); }
+  //     else if (!isLockedScreen && data.chatId !== 'null' && unReadMsgUserIds.filter(item => item !== data.chatId).length > 0) {
+  //       console.log('UnLocked and Active USER');
+  //       showPushNotification();
+  //     }
+
+  //   };
+  //   setUnReadCount(unReadMsgCount);
+  // }, [data, isLockedScreen, unReadMsgCount, unReadCount, unReadMsgUserIds, setUnReadCount, setUnReadMsgCount, setUnReadMsgUserIds, showPushNotification]);
 
 
   return (
