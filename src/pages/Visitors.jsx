@@ -21,7 +21,7 @@ const Visitors = () => {
     const emailRef = useRef();
     const pinRef = useRef();
 
-    const [editPinCodeValue, setEditPinCodeValue] = useState();
+    const [editPinCodeValue, setEditPinCodeValue] = useState('');
 
     useEffect(() => {
         const getAllUsers = async () => {
