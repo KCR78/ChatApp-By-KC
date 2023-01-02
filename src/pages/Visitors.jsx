@@ -155,6 +155,7 @@ const Visitors = () => {
                                                 <span className={isEditPin === item.uuid ? 'editPinBox' : 'disp-hide'}>
                                                     <input
                                                         type="text"
+                                                        inputMode="numeric"
                                                         value={editPinCodeValue}
                                                         onChange={(e) => setEditPinCodeValue(e.target.value)}
                                                         onKeyPress={blockInvalidNums}
@@ -193,6 +194,7 @@ const Visitors = () => {
                             <input
                                 required
                                 type="text"
+                                inputMode="numeric"
                                 ref={pinRef}
                                 maxLength='6'
                                 placeholder="Visitor's digit PIN"

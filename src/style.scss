@@ -108,12 +108,6 @@ input:focus-visible {
     flex-direction: column;
     align-items: center;
 
-    p {
-      margin: 10px;
-      font-weight: bold;
-      letter-spacing: 2px;
-    }
-
     button {
       padding: 5px 15px;
       border: 0;
@@ -128,28 +122,14 @@ input:focus-visible {
     }
 
     .pinput {
-
-      div {
-        input {
-          font-size: 40px;
-          margin-right: 20px !important;
-          width: 32px !important;
-          height: 32px !important;
-
-          @include mobile {
-            font-size: 18px !important;
-            margin-right: 4px !important;
-            width: 28px !important;
-            height: 28px !important;
-          }
-        }
-      }
-
-      div:last-child {
-        input {
-          margin-right: 0px !important;
-        }
-      }
+      width: 150px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 600;
+      font-size: xx-large;
+      padding-left: 10px;
+      letter-spacing: 8px;
+      line-height: 33px;
     }
   }
 }

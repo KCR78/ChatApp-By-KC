@@ -11,7 +11,7 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase';
 import { AuthContext } from '../context/AuthContext';
 import { useCallback } from 'react';
-import OtpInput from 'react18-input-otp';
+import { blockInvalidNums } from '../components/BlockInvalidNums';
 
 const Home = () => {
 
@@ -78,14 +78,16 @@ const Home = () => {
     return (
       <div className='locker'>
         <div className="react-lock-screen__ui">
-          <OtpInput
-            containerStyle='pinput'
+          <input
+            type='password'
+            inputMode='numeric'
+            className='pinput'
             value={passKey}
-            onChange={(data) => setPassKey(data)}
-            isInputSecure
-            isInputNum
-            shouldAutoFocus={true}
-            numInputs={6}
+            onChange={(e) => setPassKey(e.target.value)}
+            maxLength='6'
+            onKeyPress={blockInvalidNums}
+            autoFocus
+            autoComplete='off'
           />
           <button onClick={unlockScreen}>unlock</button>
           {err && <p className='text-white'>{err}</p>}
