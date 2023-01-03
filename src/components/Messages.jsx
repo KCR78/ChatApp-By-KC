@@ -88,7 +88,7 @@ const Messages = () => {
           keyboard_double_arrow_down
         </span>
       </label>
-      {isLoadingMsg && <div class="loader loading"></div>}
+      {isLoadingMsg && <div className="loader loading"></div>}
     </div>
   );
 };
