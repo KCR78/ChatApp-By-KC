@@ -11,7 +11,8 @@ const Messages = () => {
   const { data,
     messages, setMessages,
     unReadMsgUserIds, setUnReadMsgUserIds,
-    isScrollToBottom, setIsScrollToBottom
+    isScrollToBottom, setIsScrollToBottom,
+    isLoadingMsg
   } = useContext(ChatContext);
 
   const scrollToBottom = () => {
@@ -87,6 +88,7 @@ const Messages = () => {
           keyboard_double_arrow_down
         </span>
       </label>
+      {isLoadingMsg && <div class="loader loading"></div>}
     </div>
   );
 };

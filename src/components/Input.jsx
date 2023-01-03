@@ -22,7 +22,7 @@ const Input = () => {
   const [imgToggle, setImgToggle] = useState(false);
 
   const { currentUser } = useContext(AuthContext);
-  const { data, setIsSelectImg } = useContext(ChatContext);
+  const { data, setIsSelectImg, setIsLoadingMsg } = useContext(ChatContext);
 
 
   const pushNotification = (token) => {
@@ -68,6 +68,7 @@ const Input = () => {
   };
 
   const handleSend = async () => {
+    setIsLoadingMsg(true);
     const textContent = text;
     const imgData = img;
 
@@ -111,8 +112,8 @@ const Input = () => {
 
       const storageRef = ref(storage, `image_${ids}`);
 
-      await uploadBytesResumable(storageRef, imgData, imgData).then(
-        () => {
+      await uploadBytesResumable(storageRef, imgData, imgData)
+        .then(() => {
           getDownloadURL(storageRef).then(async (downloadURL) => {
             await updateDoc(doc(db, "chats", data.chatId), {
               messages: arrayUnion({
@@ -125,8 +126,10 @@ const Input = () => {
             });
             pushNotification(regdToken);
             updtDocs(textContent !== '' ? textContent.substring(0, 20) : 'Image', ids);
+            setIsLoadingMsg(false);
           });
-        });
+        })
+        .catch((err) => { console.log(err); setIsLoadingMsg(false); });
     } else {
       if (textContent.trim() !== '') {
 
@@ -141,6 +144,7 @@ const Input = () => {
 
         pushNotification(regdToken);
         updtDocs(textContent !== '' ? textContent.substring(0, 20) : 'Image', ids);
+        setIsLoadingMsg(false);
       }
     };
   };

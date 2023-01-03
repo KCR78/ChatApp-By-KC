@@ -1046,6 +1046,53 @@ input:focus-visible {
           }
         }
 
+        .loading {
+          position: absolute;
+          left: 20px;
+          top: calc(100% - 100px);
+
+          @include tabletLandscape {
+            top: calc(100% - 95px);
+          }
+
+          @include mobile {
+            top: calc(100% - 80px);
+            padding: 2px;
+          }
+        }
+
+        .loader {
+          border: 4px solid transparent;
+          border-radius: 50%;
+          border-left: 4px solid #900303;
+          border-top: 4px solid #900303;
+          border-bottom: 4px solid #900303;
+          width: 15px;
+          height: 15px;
+          -webkit-animation: spin 1s linear infinite;
+          animation: spin 1s linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+          0% {
+            -webkit-transform: rotate(0deg);
+          }
+
+          100% {
+            -webkit-transform: rotate(360deg);
+          }
+        }
+
+        @keyframes spin {
+          0% {
+            transform: rotate(0deg);
+          }
+
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+
 
         .message {
           display: flex;
