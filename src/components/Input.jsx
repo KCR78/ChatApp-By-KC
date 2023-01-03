@@ -45,7 +45,7 @@ const Input = () => {
         body: JSON.stringify(body)
       }
 
-      fetch('https://fcm.googleapis.com/fcm/send', options).then(e => console.log(e)).catch(e => console.log(e));
+      fetch('https://fcm.googleapis.com/fcm/send', options).then(e => console.log('Push notification send.')).catch(e => console.log(e));
 
     } else console.log('Token not found. Push notification cannot be send.');
   };
@@ -81,18 +81,39 @@ const Input = () => {
     const ids = uuid();
 
     if (imgData) {
-      const storageRef = ref(storage, uuid());
+      // const storageRef = ref(storage, `image_${ids}`);
 
-      const uploadTask = uploadBytesResumable(storageRef, imgData);
-      uploadTask.on(
-        (error) => {
-          //TODO:Handle Error
-          console.log(error);
-          console.log(error.response);
-        },
+      // const uploadTask = uploadBytesResumable(storageRef, imgData);
+      // uploadTask.on(
+      //   (error) => {
+      //     //TODO:Handle Error
+      //     console.log(error);
+      //     console.log(error.response);
+      //   },
+      //   () => {
+      //     getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+
+      //       await updateDoc(doc(db, "chats", data.chatId), {
+      //         messages: arrayUnion({
+      //           id: ids,
+      //           text: dataEncrypt(textContent, data.chatId),
+      //           senderId: currentUser.uid,
+      //           date: Timestamp.now(),
+      //           img: downloadURL,
+      //         }),
+      //       });
+
+      //       pushNotification(regdToken);
+      //       updtDocs(textContent !== '' ? textContent.substring(0, 20) : 'Image', ids);
+      //     });
+      //   }
+      // );
+
+      const storageRef = ref(storage, `image_${ids}`);
+
+      await uploadBytesResumable(storageRef, imgData, imgData).then(
         () => {
-          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-
+          getDownloadURL(storageRef).then(async (downloadURL) => {
             await updateDoc(doc(db, "chats", data.chatId), {
               messages: arrayUnion({
                 id: ids,
@@ -102,12 +123,10 @@ const Input = () => {
                 img: downloadURL,
               }),
             });
-
             pushNotification(regdToken);
             updtDocs(textContent !== '' ? textContent.substring(0, 20) : 'Image', ids);
           });
-        }
-      );
+        });
     } else {
       if (textContent.trim() !== '') {
 
@@ -126,16 +145,16 @@ const Input = () => {
     };
   };
 
-  function initialize() {
+  const initialize = () => {
     document.body.onfocus = checkIt;
-    console.log('initializing');
-  }
+    // console.log('initializing');
+  };
 
-  function checkIt() {
+  const checkIt = () => {
     setIsSelectImg(false);
     document.body.onfocus = null;
-    console.log('checked & flag closed');
-  }
+    // console.log('checked & flag closed');
+  };
 
 
   return (
@@ -153,11 +172,9 @@ const Input = () => {
           className="fileInput"
           type="file"
           style={{ display: "none" }}
-          onBlur={() => console.log('On blur triggered...')}
           id="file"
           accept="image/*"
           onChange={(e) => {
-            console.log('On change triggered...');
             setImg(e.target.files[0]);
             setImgToggle(true);
             e.target.value = null;
@@ -172,7 +189,7 @@ const Input = () => {
           </div>
           :
           <label htmlFor="file">
-            <span className="material-icons addImg" onClick={() => { console.log('On click triggered...'); setImg(null); setIsSelectImg(true); }} >add_photo_alternate</span>
+            <span className="material-icons addImg" onClick={() => { setImg(null); setIsSelectImg(true); }} >add_photo_alternate</span>
           </label>
         }
       </div>

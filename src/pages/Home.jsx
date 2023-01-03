@@ -89,6 +89,7 @@ const Home = () => {
             className='pinput'
             value={passKey}
             onChange={(e) => setPassKey(e.target.value)}
+            onKeyDown={(e) => e.code === 'Enter' && unlockScreen()}
             maxLength='6'
             onKeyPress={blockInvalidNums}
             autoFocus
