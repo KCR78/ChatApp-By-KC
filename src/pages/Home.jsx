@@ -16,6 +16,7 @@ import { blockInvalidNums } from '../components/BlockInvalidNums';
 const Home = () => {
 
   const { isRegisterUserOpen,
+    isSelectImg, setIsSelectImg
     // data, 
     // unReadMsgCount, setUnReadMsgCount,
     // unReadMsgUserIds, setUnReadMsgUserIds,
@@ -36,13 +37,16 @@ const Home = () => {
     document.addEventListener("visibilitychange", function () {
       if (document.hidden) {
         // console.log("Browser tab is hidden");
-        setIsLockedScreen(true);
-        setLockTimer(0);
+        if (!isSelectImg) {
+          setIsLockedScreen(true);
+          setLockTimer(0);
+        }
       } else {
+        if (isSelectImg) setIsSelectImg(false);
         // console.log("Browser tab is visible");
       }
     });
-  }, []);
+  }, [isSelectImg, setIsSelectImg]);
 
   const getLockScreenUi = setLock => {
 

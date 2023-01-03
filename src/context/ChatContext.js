@@ -14,8 +14,9 @@ export const ChatContextProvider = ({ children }) => {
   const [chats, setChats] = useState([]);
   const [messages, setMessages] = useState([]);
   const [isScrollToBottom, setIsScrollToBottom] = useState(false);
-
   const [isRegisterUserOpen, setIsRegisterUserOpen] = useState(false);
+  const [isSelectImg, setIsSelectImg] = useState(false);
+
 
   // Notification constants
   const [unReadMsgUserIds, setUnReadMsgUserIds] = useState([]);
@@ -66,7 +67,8 @@ export const ChatContextProvider = ({ children }) => {
       unReadMsgCount, setUnReadMsgCount,
       unReadMsgUserIds, setUnReadMsgUserIds,
       unReadCount, setUnReadCount,
-      isScrollToBottom, setIsScrollToBottom
+      isScrollToBottom, setIsScrollToBottom,
+      isSelectImg, setIsSelectImg
     }}>
       {children}
     </ChatContext.Provider>

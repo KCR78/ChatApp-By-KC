@@ -1159,7 +1159,9 @@ input:focus-visible {
           .imageBox {
             display: flex;
             align-items: center;
-            cursor: pointer;
+            position: absolute;
+            bottom: 43px;
+            left: 25px;
 
             label {
               font-size: 12px;
@@ -1169,16 +1171,24 @@ input:focus-visible {
             }
 
             .cancelImg {
+              cursor: pointer;
               font-size: 20px;
               color: darkgrey;
-            }
+              position: absolute;
+              top: 2px;
+              right: 2px;
 
-            &:hover {
-
-              label,
-              .cancelImg {
+              &:hover {
                 color: black;
               }
+            }
+
+            .selected_Image {
+              border-top-left-radius: 10px;
+              border-top-right-radius: 10px;
+              width: 80px;
+              background: #fff;
+              padding: 10px;
             }
           }
 

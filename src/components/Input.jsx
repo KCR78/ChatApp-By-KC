@@ -22,7 +22,7 @@ const Input = () => {
   const [imgToggle, setImgToggle] = useState(false);
 
   const { currentUser } = useContext(AuthContext);
-  const { data } = useContext(ChatContext);
+  const { data, setIsSelectImg } = useContext(ChatContext);
 
 
   const pushNotification = (token) => {
@@ -126,6 +126,18 @@ const Input = () => {
     };
   };
 
+  function initialize() {
+    document.body.onfocus = checkIt;
+    console.log('initializing');
+  }
+
+  function checkIt() {
+    setIsSelectImg(false);
+    document.body.onfocus = null;
+    console.log('checked & flag closed');
+  }
+
+
   return (
     <div className="input">
       <div className="inputField">
@@ -141,17 +153,26 @@ const Input = () => {
           className="fileInput"
           type="file"
           style={{ display: "none" }}
+          onBlur={() => console.log('On blur triggered...')}
           id="file"
-          onChange={(e) => { setImg(e.target.files[0]); setImgToggle(true); }}
+          accept="image/*"
+          onChange={(e) => {
+            console.log('On change triggered...');
+            setImg(e.target.files[0]);
+            setImgToggle(true);
+            e.target.value = null;
+            setIsSelectImg(false);
+          }}
+          onClick={initialize}
         />
         {imgToggle ?
-          <div className="imageBox" onClick={() => { setImg(null); setImgToggle(false); }}>
-            <label>1Img</label>
-            <span className="material-icons cancelImg">cancel</span>
+          <div className="imageBox">
+            <span className="material-icons cancelImg" onClick={() => { setImg(null); setImgToggle(false) }}>cancel</span>
+            {img && <img src={URL.createObjectURL(img)} alt='selected_Image' className="selected_Image" />}
           </div>
           :
           <label htmlFor="file">
-            <span className="material-icons addImg">add_photo_alternate</span>
+            <span className="material-icons addImg" onClick={() => { console.log('On click triggered...'); setImg(null); setIsSelectImg(true); }} >add_photo_alternate</span>
           </label>
         }
       </div>
