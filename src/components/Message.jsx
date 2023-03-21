@@ -6,6 +6,7 @@ import { useState } from "react";
 import { dataDecrypt } from "./dataEncryptDcrypt";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import thumbnail from '../img/thumbnail.jpg';
 
 const Message = ({ message, chatId }) => {
 
@@ -14,6 +15,11 @@ const Message = ({ message, chatId }) => {
 
   const [msg, setMsg] = useState('');
   const ref = useRef();
+
+  const imageDecrypt = (imgData, elemId) => {
+    const elem = document.getElementById(elemId);
+    elem.src = dataDecrypt(imgData, chatId);
+  };
 
   useEffect(() => {
     if (isScrollToBottom) {
@@ -60,7 +66,15 @@ const Message = ({ message, chatId }) => {
       </div>
       <div className="messageContent">
         {msg !== '' && <p>{msg}</p>}
-        {message.img && <img src={message.img} alt="" />}
+        {message.img &&
+          <img
+            src={thumbnail}
+            alt=""
+            id={message.id}
+            className="pointer"
+            onClick={() => imageDecrypt(message.img, message.id)}
+          />
+        }
       </div>
     </div>
   );

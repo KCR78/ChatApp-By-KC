@@ -71,6 +71,10 @@ input:focus-visible {
   display: none;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .lockedScreen {
   width: 100%;
   height: 100vh;

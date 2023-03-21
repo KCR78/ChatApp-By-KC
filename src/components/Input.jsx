@@ -9,9 +9,9 @@ import {
   Timestamp,
   updateDoc,
 } from "firebase/firestore";
-import { db, storage } from "../firebase";
+import { db } from "../firebase";
 import { v4 as uuid } from "uuid";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+// import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { dataEncrypt } from "./dataEncryptDcrypt";
 
 
@@ -110,26 +110,47 @@ const Input = () => {
       //   }
       // );
 
-      const storageRef = ref(storage, `image_${ids}`);
+      // const storageRef = ref(storage, `image_${ids}`);
 
-      await uploadBytesResumable(storageRef, imgData, imgData)
-        .then(() => {
-          getDownloadURL(storageRef).then(async (downloadURL) => {
-            await updateDoc(doc(db, "chats", data.chatId), {
-              messages: arrayUnion({
-                id: ids,
-                text: dataEncrypt(textContent, data.chatId),
-                senderId: currentUser.uid,
-                date: Timestamp.now(),
-                img: downloadURL,
-              }),
-            });
-            pushNotification(regdToken);
-            updtDocs(textContent !== '' ? textContent.substring(0, 20) : 'Image', ids);
-            setIsLoadingMsg(false);
-          });
-        })
-        .catch((err) => { console.log(err); setIsLoadingMsg(false); });
+      // await uploadBytesResumable(storageRef, imgData, imgData)
+      //   .then(() => {
+      //     getDownloadURL(storageRef).then(async (downloadURL) => {
+      //       await updateDoc(doc(db, "chats", data.chatId), {
+      //         messages: arrayUnion({
+      //           id: ids,
+      //           text: dataEncrypt(textContent, data.chatId),
+      //           senderId: currentUser.uid,
+      //           date: Timestamp.now(),
+      //           img: downloadURL,
+      //         }),
+      //       });
+      //       pushNotification(regdToken);
+      //       updtDocs(textContent !== '' ? textContent.substring(0, 20) : 'Image', ids);
+      //       setIsLoadingMsg(false);
+      //     });
+      //   })
+      //   .catch((err) => { console.log(err); setIsLoadingMsg(false); });
+
+      let reader = new FileReader();
+      reader.onloadend = async function () {
+        // console.log('String Output: ', reader.result);
+        // console.log('Encr O/p: ', dataEncrypt(reader.result, data.chatId));
+
+        await updateDoc(doc(db, "chats", data.chatId), {
+          messages: arrayUnion({
+            id: ids,
+            text: dataEncrypt(textContent, data.chatId),
+            senderId: currentUser.uid,
+            date: Timestamp.now(),
+            img: dataEncrypt(reader.result, data.chatId),
+          }),
+        });
+        pushNotification(regdToken);
+        updtDocs(textContent !== '' ? textContent.substring(0, 20) : 'Image', ids);
+        setIsLoadingMsg(false);
+      };
+      reader.readAsDataURL(imgData);
+
     } else {
       if (textContent.trim() !== '') {
 
