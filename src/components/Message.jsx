@@ -14,11 +14,25 @@ const Message = ({ message, chatId }) => {
   const { data, chats, isScrollToBottom } = useContext(ChatContext);
 
   const [msg, setMsg] = useState('');
+  const [msgIds, setMsgIds] = useState([]);
   const ref = useRef();
 
   const imageDecrypt = (imgData, elemId) => {
-    const elem = document.getElementById(elemId);
-    elem.src = dataDecrypt(imgData, chatId);
+    if (!msgIds.includes(elemId)) {
+      const elem = document.getElementById(elemId);
+
+      fetch(imgData)
+        .then((r) => {
+          r.text()
+            .then(d => {
+              elem.src = dataDecrypt(d, chatId);
+              msgIds.push(elemId);
+              setMsgIds(v => v);
+            })
+            .catch(e => console.log(e))
+        })
+        .catch(err => console.log(err));
+    };
   };
 
   useEffect(() => {

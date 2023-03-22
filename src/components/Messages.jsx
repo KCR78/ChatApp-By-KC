@@ -44,10 +44,11 @@ const Messages = () => {
 
 
   useEffect(() => {
-    window.onwheel = e => {
+    const objDiv = document.getElementById("messages");
+    objDiv.onwheel = e => {
       if (e.deltaY >= 0) actionDown();
       else actionUp();
-    }
+    };
   }, [actionDown, actionUp]);
 
   const [touchStartPosX, setTouchStartPosX] = useState(0);

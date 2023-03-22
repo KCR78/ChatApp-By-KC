@@ -1,18 +1,11 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
-import {
-  arrayUnion,
-  doc,
-  getDoc,
-  serverTimestamp,
-  Timestamp,
-  updateDoc,
-} from "firebase/firestore";
-import { db } from "../firebase";
+import { arrayUnion, doc, getDoc, serverTimestamp, Timestamp, updateDoc } from "firebase/firestore";
+import { db, storage } from "../firebase";
 import { v4 as uuid } from "uuid";
-// import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { dataEncrypt } from "./dataEncryptDcrypt";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
 
 const Input = () => {
@@ -135,19 +128,31 @@ const Input = () => {
       reader.onloadend = async function () {
         // console.log('String Output: ', reader.result);
         // console.log('Encr O/p: ', dataEncrypt(reader.result, data.chatId));
+        const imgString = dataEncrypt(reader.result, data.chatId);
 
-        await updateDoc(doc(db, "chats", data.chatId), {
-          messages: arrayUnion({
-            id: ids,
-            text: dataEncrypt(textContent, data.chatId),
-            senderId: currentUser.uid,
-            date: Timestamp.now(),
-            img: dataEncrypt(reader.result, data.chatId),
-          }),
+        const storageRef = ref(storage, `image_${ids}`);
+
+
+        uploadString(storageRef, imgString).then((snapshot) => {
+          // console.log('Uploaded a Image String!');
+
+          getDownloadURL(snapshot.ref).then(async (downloadURL) => {
+            // console.log('File available at', downloadURL);
+
+            await updateDoc(doc(db, "chats", data.chatId), {
+              messages: arrayUnion({
+                id: ids,
+                text: dataEncrypt(textContent, data.chatId),
+                senderId: currentUser.uid,
+                date: Timestamp.now(),
+                img: downloadURL,
+              }),
+            });
+            pushNotification(regdToken);
+            updtDocs(textContent !== '' ? textContent.substring(0, 20) : 'Image', ids);
+            setIsLoadingMsg(false);
+          });
         });
-        pushNotification(regdToken);
-        updtDocs(textContent !== '' ? textContent.substring(0, 20) : 'Image', ids);
-        setIsLoadingMsg(false);
       };
       reader.readAsDataURL(imgData);
 
