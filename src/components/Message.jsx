@@ -14,25 +14,28 @@ const Message = ({ message, chatId }) => {
   const { data, chats, isScrollToBottom } = useContext(ChatContext);
 
   const [msg, setMsg] = useState('');
-  const [msgIds, setMsgIds] = useState([]);
   const ref = useRef();
 
   const imageDecrypt = (imgData, elemId) => {
-    if (!msgIds.includes(elemId)) {
-      const elem = document.getElementById(elemId);
 
-      fetch(imgData)
-        .then((r) => {
-          r.text()
-            .then(d => {
-              elem.src = dataDecrypt(d, chatId);
-              msgIds.push(elemId);
-              setMsgIds(v => v);
-            })
-            .catch(e => console.log(e))
-        })
-        .catch(err => console.log(err));
-    };
+    const loaderImg = document.getElementById(`loader_span_${elemId}`);
+    const loadBtn = document.getElementById(`load_btn_${elemId}`);
+
+    loadBtn.style.display = 'none';
+    loaderImg.style.display = 'flex';
+
+    const elem = document.getElementById(elemId);
+
+    fetch(imgData)
+      .then((r) => {
+        r.text()
+          .then(d => {
+            elem.src = dataDecrypt(d, chatId);
+            loaderImg.style.display = 'none';
+          })
+          .catch(e => console.log(e))
+      })
+      .catch(err => console.log(err));
   };
 
   useEffect(() => {
@@ -81,13 +84,26 @@ const Message = ({ message, chatId }) => {
       <div className="messageContent">
         {msg !== '' && <p>{msg}</p>}
         {message.img &&
-          <img
-            src={thumbnail}
-            alt=""
-            id={message.id}
-            className="pointer"
-            onClick={() => imageDecrypt(message.img, message.id)}
-          />
+          <div className="imgBox">
+            <img
+              src={thumbnail}
+              alt=""
+              id={message.id}
+            />
+            <div className="loaderBox">
+              <span id={`loader_span_${message.id}`} className="loader_span">
+                <div className="loader"></div>
+              </span>
+              <button
+                type="button"
+                id={`load_btn_${message.id}`}
+                className="load_btn pointer"
+                onClick={() => imageDecrypt(message.img, message.id)}
+              >
+                <span className="material-icons">refresh</span>
+              </button>
+            </div>
+          </div>
         }
       </div>
     </div>

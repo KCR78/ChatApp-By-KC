@@ -1148,16 +1148,64 @@ input:focus-visible {
               width: 50%;
             }
 
+            .imgBox {
+              display: flex;
+              align-items: center;
+              // border: 1px solid red;
+              position: relative;
+
+              .loaderBox {
+                position: absolute;
+                width: 50%;
+                display: flex;
+                justify-content: center;
+
+                .loader_span {
+                  background: rgb(0, 0, 0, 0.5);
+                  border-radius: 50%;
+                  padding: 5px;
+                  display: none;
+                  align-items: center;
+                  justify-content: center;
+
+                  .loader {
+                    border-left: 4px solid whitesmoke;
+                    border-top: 4px solid whitesmoke;
+                    border-bottom: 4px solid whitesmoke;
+                  }
+                }
+
+
+                .load_btn {
+                  background: rgb(0, 0, 0, 0.5);
+                  border-radius: 50%;
+                  border: none;
+                  padding: 2px;
+                  margin: 0;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+
+                  .material-icons {
+                    color: whitesmoke;
+                    font-size: 30px;
+                    font-weight: 600;
+                  }
+                }
+              }
+            }
+
+
             @include mobile {
               p {
                 font-size: 14px;
               }
 
+              .loaderBox,
               img {
-                width: 40%;
+                width: 40% !important;
               }
             }
-
           }
 
           &.owner {
@@ -1170,6 +1218,10 @@ input:focus-visible {
                 background-color: #8da4f1;
                 color: white;
                 border-radius: 10px 0px 10px 10px;
+              }
+
+              .imgBox {
+                flex-direction: row-reverse;
               }
             }
           }

@@ -6,6 +6,7 @@ import { db, storage } from "../firebase";
 import { v4 as uuid } from "uuid";
 import { dataEncrypt } from "./dataEncryptDcrypt";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import { useEffect } from "react";
 
 
 const Input = () => {
@@ -15,7 +16,7 @@ const Input = () => {
   const [imgToggle, setImgToggle] = useState(false);
 
   const { currentUser } = useContext(AuthContext);
-  const { data, setIsSelectImg, setIsLoadingMsg } = useContext(ChatContext);
+  const { data, setIsSelectImg, setIsLoadingMsg, chatReset, setChatReset } = useContext(ChatContext);
 
 
   const pushNotification = (token) => {
@@ -61,117 +62,121 @@ const Input = () => {
   };
 
   const handleSend = async () => {
-    setIsLoadingMsg(true);
-    const textContent = text;
-    const imgData = img;
 
-    setImg(null);
-    setImgToggle(false);
-    setText("");
+    if (text.trim() !== '' || img) {
+      setIsLoadingMsg(true);
+      const textContent = text;
+      const imgData = img;
 
-    const result = await getDoc(doc(db, "fcmTokens", data.user.uid));
-    // This registration token comes from the client FCM SDKs.
-    const regdToken = result.data() ? result.data().token_id : null;
-    const ids = uuid();
+      setImg(null);
+      setImgToggle(false);
+      setText("");
 
-    if (imgData) {
-      // const storageRef = ref(storage, `image_${ids}`);
+      const result = await getDoc(doc(db, "fcmTokens", data.user.uid));
+      // This registration token comes from the client FCM SDKs.
+      const regdToken = result.data() ? result.data().token_id : null;
+      const ids = uuid();
 
-      // const uploadTask = uploadBytesResumable(storageRef, imgData);
-      // uploadTask.on(
-      //   (error) => {
-      //     //TODO:Handle Error
-      //     console.log(error);
-      //     console.log(error.response);
-      //   },
-      //   () => {
-      //     getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+      if (imgData) {
 
-      //       await updateDoc(doc(db, "chats", data.chatId), {
-      //         messages: arrayUnion({
-      //           id: ids,
-      //           text: dataEncrypt(textContent, data.chatId),
-      //           senderId: currentUser.uid,
-      //           date: Timestamp.now(),
-      //           img: downloadURL,
-      //         }),
-      //       });
+        // const storageRef = ref(storage, `image_${ids}`);
 
-      //       pushNotification(regdToken);
-      //       updtDocs(textContent !== '' ? textContent.substring(0, 20) : 'Image', ids);
-      //     });
-      //   }
-      // );
+        // const uploadTask = uploadBytesResumable(storageRef, imgData);
+        // uploadTask.on(
+        //   (error) => {
+        //     //TODO:Handle Error
+        //     console.log(error);
+        //     console.log(error.response);
+        //   },
+        //   () => {
+        //     getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
 
-      // const storageRef = ref(storage, `image_${ids}`);
+        //       await updateDoc(doc(db, "chats", data.chatId), {
+        //         messages: arrayUnion({
+        //           id: ids,
+        //           text: dataEncrypt(textContent, data.chatId),
+        //           senderId: currentUser.uid,
+        //           date: Timestamp.now(),
+        //           img: downloadURL,
+        //         }),
+        //       });
 
-      // await uploadBytesResumable(storageRef, imgData, imgData)
-      //   .then(() => {
-      //     getDownloadURL(storageRef).then(async (downloadURL) => {
-      //       await updateDoc(doc(db, "chats", data.chatId), {
-      //         messages: arrayUnion({
-      //           id: ids,
-      //           text: dataEncrypt(textContent, data.chatId),
-      //           senderId: currentUser.uid,
-      //           date: Timestamp.now(),
-      //           img: downloadURL,
-      //         }),
-      //       });
-      //       pushNotification(regdToken);
-      //       updtDocs(textContent !== '' ? textContent.substring(0, 20) : 'Image', ids);
-      //       setIsLoadingMsg(false);
-      //     });
-      //   })
-      //   .catch((err) => { console.log(err); setIsLoadingMsg(false); });
+        //       pushNotification(regdToken);
+        //       updtDocs(textContent !== '' ? textContent.substring(0, 20) : 'Image', ids);
+        //     });
+        //   }
+        // );
 
-      let reader = new FileReader();
-      reader.onloadend = async function () {
-        // console.log('String Output: ', reader.result);
-        // console.log('Encr O/p: ', dataEncrypt(reader.result, data.chatId));
-        const imgString = dataEncrypt(reader.result, data.chatId);
+        // const storageRef = ref(storage, `image_${ids}`);
 
-        const storageRef = ref(storage, `image_${ids}`);
+        // await uploadBytesResumable(storageRef, imgData, imgData)
+        //   .then(() => {
+        //     getDownloadURL(storageRef).then(async (downloadURL) => {
+        //       await updateDoc(doc(db, "chats", data.chatId), {
+        //         messages: arrayUnion({
+        //           id: ids,
+        //           text: dataEncrypt(textContent, data.chatId),
+        //           senderId: currentUser.uid,
+        //           date: Timestamp.now(),
+        //           img: downloadURL,
+        //         }),
+        //       });
+        //       pushNotification(regdToken);
+        //       updtDocs(textContent !== '' ? textContent.substring(0, 20) : 'Image', ids);
+        //       setIsLoadingMsg(false);
+        //     });
+        //   })
+        //   .catch((err) => { console.log(err); setIsLoadingMsg(false); });
+
+        let reader = new FileReader();
+        reader.onloadend = async function () {
+          // console.log('String Output: ', reader.result);
+          // console.log('Encr O/p: ', dataEncrypt(reader.result, data.chatId));
+          const imgString = dataEncrypt(reader.result, data.chatId);
+
+          const storageRef = ref(storage, `image_${ids}`);
 
 
-        uploadString(storageRef, imgString).then((snapshot) => {
-          // console.log('Uploaded a Image String!');
+          uploadString(storageRef, imgString).then((snapshot) => {
+            // console.log('Uploaded a Image String!');
 
-          getDownloadURL(snapshot.ref).then(async (downloadURL) => {
-            // console.log('File available at', downloadURL);
+            getDownloadURL(snapshot.ref).then(async (downloadURL) => {
+              // console.log('File available at', downloadURL);
 
-            await updateDoc(doc(db, "chats", data.chatId), {
-              messages: arrayUnion({
-                id: ids,
-                text: dataEncrypt(textContent, data.chatId),
-                senderId: currentUser.uid,
-                date: Timestamp.now(),
-                img: downloadURL,
-              }),
+              await updateDoc(doc(db, "chats", data.chatId), {
+                messages: arrayUnion({
+                  id: ids,
+                  text: dataEncrypt(textContent.trim(), data.chatId),
+                  senderId: currentUser.uid,
+                  date: Timestamp.now(),
+                  img: downloadURL,
+                }),
+              });
+              pushNotification(regdToken);
+              updtDocs(textContent !== '' ? textContent.substring(0, 20) : 'Image', ids);
+              setIsLoadingMsg(false);
             });
-            pushNotification(regdToken);
-            updtDocs(textContent !== '' ? textContent.substring(0, 20) : 'Image', ids);
-            setIsLoadingMsg(false);
           });
-        });
+        };
+        reader.readAsDataURL(imgData);
+
+      } else {
+        if (textContent.trim() !== '') {
+
+          await updateDoc(doc(db, "chats", data.chatId), {
+            messages: arrayUnion({
+              id: ids,
+              text: dataEncrypt(textContent, data.chatId),
+              senderId: currentUser.uid,
+              date: Timestamp.now(),
+            }),
+          });
+
+          pushNotification(regdToken);
+          updtDocs(textContent !== '' ? textContent.substring(0, 20) : 'Image', ids);
+          setIsLoadingMsg(false);
+        }
       };
-      reader.readAsDataURL(imgData);
-
-    } else {
-      if (textContent.trim() !== '') {
-
-        await updateDoc(doc(db, "chats", data.chatId), {
-          messages: arrayUnion({
-            id: ids,
-            text: dataEncrypt(textContent, data.chatId),
-            senderId: currentUser.uid,
-            date: Timestamp.now(),
-          }),
-        });
-
-        pushNotification(regdToken);
-        updtDocs(textContent !== '' ? textContent.substring(0, 20) : 'Image', ids);
-        setIsLoadingMsg(false);
-      }
     };
   };
 
@@ -185,6 +190,15 @@ const Input = () => {
     document.body.onfocus = null;
     // console.log('checked & flag closed');
   };
+
+  useEffect(() => {
+    if (chatReset) {
+      setImg(null);
+      setImgToggle(false);
+      setText("");
+      setChatReset(false);
+    };
+  }, [chatReset, setChatReset])
 
 
   return (

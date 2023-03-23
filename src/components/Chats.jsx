@@ -18,7 +18,8 @@ const Chats = () => {
     setMessages,
     unReadMsgCount, setUnReadMsgCount,
     unReadMsgUserIds, setUnReadMsgUserIds,
-    setIsScrollToBottom
+    setIsScrollToBottom,
+    setChatReset
   } = useContext(ChatContext);
 
 
@@ -30,7 +31,6 @@ const Chats = () => {
     const data = dataDecrypt(msg, key);
     return data === '' ? '' : data;
   };
-
 
   useEffect(() => {
     const getChats = () => {
@@ -51,9 +51,7 @@ const Chats = () => {
             setUnReadMsgUserIds(unique);
           };
         });
-
         setUnReadMsgCount(count);
-
       });
 
       return () => {
@@ -91,6 +89,7 @@ const Chats = () => {
       setIsRegisterUserOpen(false);
       dispatch({ type: "CHANGE_USER", payload: u });
       setIsScrollToBottom(true);
+      setChatReset(true);
     };
   };
 
